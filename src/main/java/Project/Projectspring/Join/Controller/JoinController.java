@@ -34,7 +34,7 @@ public class JoinController {
     }
 
 
-    @RequestMapping(value = "/joindo",method = RequestMethod.POST)
+    @RequestMapping(value = "/joindo")
     @ResponseBody
     public String JoinDo(JoinVO joinVO) throws Exception {
 
