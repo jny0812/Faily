@@ -1,0 +1,143 @@
+
+<html>
+<head>
+    <title>Home</title>
+
+<!--    <script type="text/javascript" src="../static/js/Home.js"></script>-->
+<!--    <script type="text/javascript" th:src="@{../static/js/jquery-3.1.1.min.js}"></script>-->
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script>
+
+    </script>
+
+</head>
+<body class="body">
+
+<div class="join">
+    <div>
+        <div>
+            <label for="user_email">메일</label>
+            <input type="text" id="user_email" placeholder="이메일을 입력하세요.">
+        </div>
+        <div>
+            <label for="user_pw">비밀번호</label>
+            <input type="passwor" id="user_pw" placeholder="비밀번호를 입력하세요." >
+        </div>
+        <div>
+            <label for="user_pw2">비밀번호확인</label>
+            <input type="password" id="user_pw2" placeholder="재확인:비밀번호를 입력하세요." >
+        </div>
+        <div>
+            <label for="user_name">이름</label>
+            <input type="text" id="user_name" placeholder="이름" >
+        </div>
+        <div>
+            <label for="user_bdate">생일</label>
+            <input type="date" id="user_bdate" placeholder="생일" >
+        </div>
+
+    </div>
+    <div>
+        <button id="btnJoin">회원가입</button>
+    </div>
+</div>
+
+<div class="content">
+    Home
+    <a href="/join">회원가입창</a>
+    <input type="text" id="Email">
+    <button id="btnEmail">회원가입(이메일인증)</button>
+
+    <div>
+
+        로그인
+        <div>
+            <input type="text" id="login_user_email" placeholder="아이디를 입력하시오">
+            <input type="text" id="login_user_pw" placeholder="비밀번호를 입력하시오">
+            <button id="btnlogin">로그인</button>
+        </div>
+
+    </div>
+    <div>
+
+    </div>
+</div>
+</body>
+<script>
+$(document).ready(function(){
+    $("#btnEmail").click(function(){
+
+        $.ajax({
+            type: "POST",
+            url: "/SendEmail",
+            data: {
+                "e_mail" : $("#Email").val()
+            },
+            success: function(res){
+                console.log("입력하신 이메일은 "+$("#Email").val());
+
+                console.log("인증번호는 "+res+"입니")
+            }
+        })
+    })
+
+    var token;
+
+    $("#btnlogin").click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/login",
+            async : false,
+            data: {
+                "user_email" : $("#login_user_email").val(),
+                "user_pw" : $("#login_user_pw").val()
+            },
+
+            success: function(res){
+                console.log(res.result);
+                if(res.result == "true"){
+                    $.ajax({
+                        type: "GET",
+                        url: "/get/token",
+                        async : false,
+                        data: {
+                            "subject" : $("#login_user_email").val(),
+                        },
+                        success: function(res){
+                            console.log(res.result)
+                        }
+                    })
+                }
+                else{
+                    alert("아이디나 비밀번호가 맞지않습니다.");
+                }
+            }
+        })
+    })
+
+    $("#btnJoin").click(function(){
+
+        $.ajax({
+            type: "POST",
+            url: "/joindo",
+            data: {
+                "user_email" : $("#user_email").val(),
+                "user_pw" : $("#user_pw").val(),
+                "user_name" : $("#user_name").val(),
+                "user_bdate" : $("#user_bdate").val()
+            },
+            success: function(res){
+                console.log(res);
+                if(res == "false"){
+                    alert("아이디나 비밀번호가 맞지않습니다.");
+                }
+                else{
+                    alert("로그인성공!")
+                }
+            }
+        })
+    })
+})
+</script>
+</html>
