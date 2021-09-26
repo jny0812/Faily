@@ -59,7 +59,6 @@ public class JoinController {
         else{
             result.put("result","true");
             result.put("message","로그인에 성공하였습니다.");
-            result.put("fcm_token","토큰값(?/??????)");
             return result;
         }
     }
