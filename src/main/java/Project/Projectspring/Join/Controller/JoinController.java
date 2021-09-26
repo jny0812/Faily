@@ -50,6 +50,7 @@ public class JoinController {
         HashMap<String,String> result = new HashMap<>();
 
         if(joinService.loginCheck(joinVO) == null){
+
             result.put("result","false");
             result.put("message","존재하지않는 회원정보입니다.");
 

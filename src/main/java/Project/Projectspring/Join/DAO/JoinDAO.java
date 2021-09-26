@@ -27,4 +27,5 @@ public class JoinDAO implements JoinDAOin{
     public String loginCheck(JoinVO joinVO) throws Exception {
         return sqlSession.selectOne(NAMESPACE+".loginCheck",joinVO);
     }
+    //dfd
 }
