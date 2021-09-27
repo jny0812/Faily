@@ -55,8 +55,8 @@ public class JoinController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
-    public HashMap<String,String> Login(JoinVO joinVO, HttpServletResponse res) throws Exception {
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public HashMap<String,String> Login(@RequestBody JoinVO joinVO, HttpServletResponse res) throws Exception {
 
         HashMap<String,String> result = new HashMap<>();
 
