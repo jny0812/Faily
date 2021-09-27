@@ -9,12 +9,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,28 +34,46 @@ public class JoinController {
 
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
-    public String JoinDo(JoinVO joinVO) throws Exception {
+    public HashMap<String,String> JoinDo(@RequestBody JoinVO joinVO) throws Exception {
 
-        joinService.create(joinVO);
+        HashMap<String,String> result = new HashMap<>();
 
-        return "redirect:/";
+        int snt = joinService.create(joinVO);
+
+        if(snt == 0){
+
+            result.put("result","false");
+            result.put("code","301");
+            result.put("message","존재하지않는 회원정보입니다.");
+        }
+        else {
+            result.put("result","true");
+            result.put("code","200");
+            result.put("message","성공.");
+        }
+        return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.GET)
-    public HashMap<String,String> Login(JoinVO joinVO) throws Exception {
+    public HashMap<String,String> Login(JoinVO joinVO, HttpServletResponse res) throws Exception {
 
         HashMap<String,String> result = new HashMap<>();
 
         if(joinService.loginCheck(joinVO) == null){
 
             result.put("result","false");
+            result.put("code","301");
             result.put("message","존재하지않는 회원정보입니다.");
 
             return result;
         }
         else{
+            res.setHeader("Authorization", "token");
+            int code = res.getStatus();
+            res.setHeader("code",String.valueOf(code));
             result.put("result","true");
+            //result.put("code","200");
             result.put("message","로그인에 성공하였습니다.");
             return result;
         }

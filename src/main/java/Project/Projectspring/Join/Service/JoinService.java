@@ -18,9 +18,9 @@ public class JoinService implements JoinServicein{
 
 
     @Override
-    public void create(JoinVO joinVO) throws Exception {
+    public Integer create(JoinVO joinVO) throws Exception {
 
-        joinDAO.create(joinVO);
+       return joinDAO.create(joinVO);
     }
 
     @Override

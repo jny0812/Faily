@@ -19,8 +19,9 @@ public class JoinDAO implements JoinDAOin{
 
 
     @Override
-    public void create(JoinVO joinVO) throws Exception {
-        sqlSession.insert(NAMESPACE+".create",joinVO);
+    public int create(JoinVO joinVO) throws Exception {
+        int snt = sqlSession.insert(NAMESPACE+".create",joinVO);
+        return snt;
     }
 
     @Override
