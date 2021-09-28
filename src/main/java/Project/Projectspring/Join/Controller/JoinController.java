@@ -38,7 +38,7 @@ public class JoinController {
 
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String, Object> JoinDo(@RequestBody JoinVO joinVO) throws Exception {
+    public HashMap<String, Object> JoinDo(@RequestBody JoinVO joinVO) throws SQLException {
         HashMap<String,Object> result = new HashMap<>();
 
         try {
@@ -51,33 +51,28 @@ public class JoinController {
         catch(Exception e) {
 
             result.put("isSuccess", false);
-            result.put("code",301);
+            result.put("code",409);
             result.put("message","이미 존재하는 이메일입니다.");
 
         }
-
-
         return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public HashMap<String, Object> Login(@RequestBody JoinVO joinVO, HttpServletResponse res) throws Exception {
+    public HashMap<String, Object> Login(@RequestBody JoinVO joinVO) throws Exception {
 
         HashMap<String, Object> result = new HashMap<>();
 
         if(joinService.loginCheck(joinVO) == null){
 
             result.put("isSuccess", false);
-            result.put("code",301);
-            result.put("message","존재하지않는 회원정보입니다.");
+            result.put("code",404);
+            result.put("message","존재하지 않는 회원정보입니다.");
 
             return result;
         }
         else{
-            //res.setHeader("Authorization", "token");
-            //int code = res.getStatus();
-            //res.setHeader("code",String.valueOf(code));
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","로그인에 성공하였습니다.");
@@ -89,9 +84,13 @@ public class JoinController {
     //이메일보내기
     @RequestMapping( value = "/SendEmail" , method=RequestMethod.POST )
     @ResponseBody
-    public String mailSending(String e_mail){
+    public HashMap<String, Object> mailSending (@RequestBody HashMap<String, String > e_mail){
+
+        log.warn(String.valueOf(e_mail));
 
         Random rand  = new Random();
+
+        HashMap<String, Object> result = new HashMap<>();
 
         String numStr = "";
         for(int i=0; i<4; i++) {
@@ -119,18 +118,28 @@ public class JoinController {
                     true, "UTF-8");
 
             messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
-            messageHelper.setTo(e_mail); // 받는사람 이메일
+            messageHelper.setTo(e_mail.get("user_email")); // 받는사람 이메일
             messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
             messageHelper.setText(content); // 메일 내용
 
             mailSender.send(message);
 
-            System.out.println(e_mail);
+            System.out.println(e_mail.get("user_email"));
+
+            result.put("isSuccess",true);
+            result.put("code",200);
+            result.put("message","인증번호가 성공적으로 발급되었습니다.");
+            result.put("인증번호",numStr);
+
         } catch (Exception e) {
             System.out.println(e);
+
+            result.put("isSuccess",false);
+            result.put("code",404);
+            result.put("message","네트워크 오류");
         }
 
-        return numStr;
+        return result;
 
     }
 
