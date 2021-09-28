@@ -34,7 +34,7 @@ public class JoinController {
 
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String,String> JoinDo(@RequestBody JoinVO joinVO) throws Exception {
+    public HashMap<String,String> JoinDo(JoinVO joinVO) throws Exception {
 
         HashMap<String,String> result = new HashMap<>();
 
