@@ -6,19 +6,23 @@ import Project.Projectspring.Join.VO.JoinVO;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
 @RestController
+@Slf4j
 public class JoinController {
 
     private final JoinService joinService;
@@ -34,50 +38,53 @@ public class JoinController {
 
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String,String> JoinDo(JoinVO joinVO) throws Exception {
+    public HashMap<String, Object> JoinDo(@RequestBody JoinVO joinVO) throws Exception {
+        HashMap<String,Object> result = new HashMap<>();
 
-        HashMap<String,String> result = new HashMap<>();
+        try {
+            joinService.create(joinVO);
 
-        int snt = joinService.create(joinVO);
-
-        if(snt == 0){
-
-            result.put("result","false");
-            result.put("code","301");
-            result.put("message","존재하지않는 회원정보입니다.");
+            result.put("isSuccess", true);
+            result.put("code",200);
+            result.put("message","회원가입 성공!");
         }
-        else {
-            result.put("result","true");
-            result.put("code","200");
-            result.put("message","성공.");
+        catch(Exception e) {
+
+            result.put("isSuccess", false);
+            result.put("code",301);
+            result.put("message","이미 존재하는 이메일입니다.");
+
         }
+
+
         return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public HashMap<String,String> Login(@RequestBody JoinVO joinVO, HttpServletResponse res) throws Exception {
+    public HashMap<String, Object> Login(@RequestBody JoinVO joinVO, HttpServletResponse res) throws Exception {
 
-        HashMap<String,String> result = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
 
         if(joinService.loginCheck(joinVO) == null){
 
-            result.put("result","false");
-            result.put("code","301");
+            result.put("isSuccess", false);
+            result.put("code",301);
             result.put("message","존재하지않는 회원정보입니다.");
 
             return result;
         }
         else{
-            res.setHeader("Authorization", "token");
-            int code = res.getStatus();
-            res.setHeader("code",String.valueOf(code));
-            result.put("result","true");
-            //result.put("code","200");
+            //res.setHeader("Authorization", "token");
+            //int code = res.getStatus();
+            //res.setHeader("code",String.valueOf(code));
+            result.put("isSuccess", true);
+            result.put("code",200);
             result.put("message","로그인에 성공하였습니다.");
             return result;
         }
     }
+
 
     //이메일보내기
     @RequestMapping( value = "/SendEmail" , method=RequestMethod.POST )

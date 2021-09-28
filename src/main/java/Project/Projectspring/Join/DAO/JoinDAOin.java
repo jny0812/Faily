@@ -5,7 +5,8 @@ import Project.Projectspring.Join.VO.JoinVO;
 
 public interface JoinDAOin {
 
-    int create(JoinVO joinVO) throws Exception;
+    void create(JoinVO joinVO) throws Exception;
 
     String loginCheck(JoinVO joinVO) throws Exception;
+
 }

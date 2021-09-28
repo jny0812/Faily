@@ -18,9 +18,8 @@ public class JoinService implements JoinServicein{
 
 
     @Override
-    public Integer create(JoinVO joinVO) throws Exception {
-
-       return joinDAO.create(joinVO);
+    public void create(JoinVO joinVO) throws Exception {
+         joinDAO.create(joinVO);
     }
 
     @Override
@@ -28,4 +27,5 @@ public class JoinService implements JoinServicein{
 
         return joinDAO.loginCheck(joinVO);
     }
+
 }
