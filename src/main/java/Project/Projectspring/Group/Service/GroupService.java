@@ -3,6 +3,7 @@ package Project.Projectspring.Group.Service;
 
 import Project.Projectspring.Group.DAO.GroupDAO;
 import Project.Projectspring.Group.VO.GroupVO;
+import Project.Projectspring.Join.VO.JoinVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,11 @@ public class GroupService implements GroupServicein {
     @Override
     public void createCode(GroupVO groupVO) throws Exception {
         groupDAO.createCode(groupVO);
+    }
+
+    @Override
+    public String codeCheck(GroupVO groupVO) throws Exception {
+
+        return groupDAO.codeCheck(groupVO);
     }
 }

@@ -6,7 +6,7 @@
 <mapper namespace="com.Project.Group.GroupMapper">
 
     <insert id="createGroup">
-        INSERT INTO group (group_name)
+        INSERT INTO `group` (group_name)
         VALUES (#{group_name})
     </insert>
 
@@ -14,5 +14,11 @@
         INSERT INTO group (group_code)
         VALUES (#{group_code})
     </insert>
+
+    <select id="codeCheck" resultType="String">
+        select group_code
+        from group
+        where group_code = #{group_code}
+    </select>
 
 </mapper>

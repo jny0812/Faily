@@ -21,15 +21,16 @@ import java.util.HashMap;
 
 @RestController
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class JoinController {
 
     private final JoinService joinService;
 
-
+    @Autowired
     JavaMailSender mailSender;
 
-    //public JoinController(JoinService joinService) {this.joinService = joinService;}
+    @Autowired
+    public JoinController(JoinService joinService) {this.joinService = joinService;}
 
 
 
