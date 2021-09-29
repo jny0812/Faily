@@ -2,24 +2,21 @@ package Project.Projectspring.Join.Controller;
 
 
 import Project.Projectspring.Join.Service.JoinService;
+import Project.Projectspring.Join.Service.SecurityService;
 import Project.Projectspring.Join.VO.JoinVO;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.mapping.Join;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 
 @RestController
 @Slf4j
@@ -63,6 +60,8 @@ public class JoinController {
     public HashMap<String, Object> Login(@RequestBody JoinVO joinVO) throws Exception {
 
         HashMap<String, Object> result = new HashMap<>();
+        JoinController joinController = new JoinController(joinService);
+        String token = joinController.makeJwtToken();
 
         if(joinService.loginCheck(joinVO) == null){
 
@@ -75,9 +74,24 @@ public class JoinController {
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","로그인에 성공하였습니다.");
+            result.put("token", token);
 
         }
         return result;
+    }
+
+    public String makeJwtToken() {
+        Date now = new Date();
+
+        return Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
+                .setIssuer("fresh") // (2)
+                .setIssuedAt(now) // (3)
+                .setExpiration(new Date(now.getTime() + Duration.ofMinutes(30).toMillis())) // (4)
+                .claim("id", "아이디") // (5)
+                .claim("email", "wkdskdus@gmail.com")
+                .signWith(SignatureAlgorithm.HS256, "secret") // (6)
+                .compact();
     }
 
 }

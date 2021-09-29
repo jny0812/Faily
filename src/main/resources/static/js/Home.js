@@ -19,7 +19,7 @@ $(document).ready(function(){
 
     $("#btnlogin").click(function(){
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/login",
             async : false,
             data: {
