@@ -1,7 +1,12 @@
 package Project.Projectspring.Join.VO;
 
+
+//import javax.validation.constraints.Email;
+//import javax.validation.constraints.Pattern;
+
 public class JoinVO {
 
+    //@Pattern(regexp = "[a-zA-z0-9]+@[a-zA-z]+[.]+[a-zA-z.]+")
     private String user_email;
     private String user_pw;
     private String user_name;
