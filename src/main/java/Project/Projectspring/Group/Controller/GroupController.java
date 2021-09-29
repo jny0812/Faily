@@ -3,14 +3,12 @@ package Project.Projectspring.Group.Controller;
 import Project.Projectspring.Group.Service.GroupService;
 import Project.Projectspring.Group.VO.GroupVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Random;
 
+@RestController
 public class GroupController {
 
     private final GroupService groupService;
@@ -47,11 +45,10 @@ public class GroupController {
             try{
                 groupService.createGroup(groupVO);
 
-
                 result.put("isSuccess",true);
                 result.put("code", 200);
                 result.put("message","코드가 발급되었습니다.");
-                result.put("code",temp);
+                result.put("GroupCode",temp.toString());
 
 
             } catch (Exception e) {

@@ -7,6 +7,7 @@ import Project.Projectspring.Join.VO.JoinVO;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.mapping.Join;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +21,24 @@ import java.util.HashMap;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class JoinController {
 
     private final JoinService joinService;
 
-    @Autowired
+
     JavaMailSender mailSender;
 
-    @Autowired
-    public JoinController(JoinService joinService) {
-        this.joinService = joinService;
-    }
+    //public JoinController(JoinService joinService) {this.joinService = joinService;}
+
 
 
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String, Object> JoinDo(@RequestBody JoinVO joinVO) throws SQLException {
         HashMap<String,Object> result = new HashMap<>();
+        JoinController joinController = new JoinController(joinService);
+        String token = joinController.makeJwtToken();
 
         try {
             joinService.create(joinVO);
@@ -44,6 +46,7 @@ public class JoinController {
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","회원가입 성공!");
+            result.put("jwt_token", token);
         }
         catch(Exception e) {
 
@@ -74,7 +77,7 @@ public class JoinController {
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","로그인에 성공하였습니다.");
-            result.put("token", token);
+            result.put("jwt_token", token);
 
         }
         return result;

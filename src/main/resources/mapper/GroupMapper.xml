@@ -6,14 +6,13 @@
 <mapper namespace="com.Project.Group.GroupMapper">
 
     <insert id="createGroup">
-        INSERT INTO group (
-                           group_name,
-                           group_user_id
-        ) VALUES (
-                     #{group_name}
-                     #{group_user_id}
-                 )
-        w
+        INSERT INTO group (group_name)
+        VALUES (#{group_name})
+    </insert>
+
+    <insert id="createCode">
+        INSERT INTO group (group_code)
+        VALUES (#{group_code})
     </insert>
 
 </mapper>
