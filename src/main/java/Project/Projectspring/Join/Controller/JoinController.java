@@ -33,7 +33,6 @@ public class JoinController {
     public JoinController(JoinService joinService) {this.joinService = joinService;}
 
 
-
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String, Object> JoinDo(@RequestBody JoinVO joinVO) throws SQLException {

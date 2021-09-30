@@ -22,6 +22,7 @@ public class GroupController {
     public GroupController(GroupService groupService) {this.groupService = groupService;}
 
 
+    //코드 발급
     @RequestMapping(value = "/GroupCode", method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String, Object> makeCode() throws Exception {
@@ -33,7 +34,7 @@ public class GroupController {
         Random rnd = new Random();
         HashMap<String, Object> result = new HashMap<>();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 4; i++) {
             int rIndex = rnd.nextInt(3);
             switch (rIndex) {
                 case 0:
@@ -68,7 +69,6 @@ public class GroupController {
             result.put("isSuccess", false);
             result.put("code", 404);
             result.put("message", "네트워크 오류");
-            //result.put("Error",e);
         }
 
         return result;
@@ -102,8 +102,5 @@ public class GroupController {
 
         return result;
     }
-
-
-
 }
 
