@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JoinDAO implements JoinDAOin{
 
-    private static final String NAMESPACE = "com.Project.Join.JoinMapper";
+    private static final String NAMESPACE = "Project.Projectspring.Join.JoinMapper";
 
     private final SqlSession sqlSession;
 

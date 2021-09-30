@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GroupDAO implements GroupDAOin{
 
-    private static final String NAMESPACE = "com.Project.Group.GroupMapper";
+    private static final String NAMESPACE = "Project.Projectspring.Group.GroupMapper";
 
     private final SqlSession sqlSession;
 
@@ -18,8 +18,8 @@ public class GroupDAO implements GroupDAOin{
     public GroupDAO(SqlSession sqlSession) { this.sqlSession = sqlSession;}
 
     @Override
-    public void createGroup(GroupVO groupVO) throws Exception {
-        sqlSession.insert(NAMESPACE+".createGroup",groupVO);
+    public void createGroup(String group_code) throws Exception {
+        sqlSession.insert(NAMESPACE+".createGroup",group_code);
     }
 
     @Override

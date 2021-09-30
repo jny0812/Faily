@@ -17,8 +17,8 @@ public class GroupService implements GroupServicein {
 
 
     @Override
-    public void createGroup(GroupVO groupVO) throws Exception {
-        groupDAO.createGroup(groupVO);
+    public void createGroup(String group_code) throws Exception {
+        groupDAO.createGroup(group_code);
     }
 
     @Override

@@ -3,11 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.Project.Group.GroupMapper">
+<mapper namespace="Project.Projectspring.Group.GroupMapper">
 
     <insert id="createGroup">
-        INSERT INTO `group` (group_name)
-        VALUES (#{group_name})
+        INSERT INTO group (
+                group_code)
+        VALUES (
+                #{group_code})
     </insert>
 
     <insert id="createCode">

@@ -6,7 +6,7 @@ import Project.Projectspring.Join.VO.JoinVO;
 
 public interface GroupServicein {
 
-    void createGroup(GroupVO groupVO) throws Exception;
+    void createGroup(String group_code) throws Exception;
 
     void createCode(GroupVO groupVO) throws Exception;
 
