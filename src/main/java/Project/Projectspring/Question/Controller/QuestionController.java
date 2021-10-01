@@ -1,6 +1,5 @@
 package Project.Projectspring.Question.Controller;
 
-import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Question.Service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +16,15 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
+
+//    public static void main(String[] args) {
+//        Calendar today = Calendar.getInstance();
+//        today.add(Calendar.HOUR, 9);
+//        int date = today.get(Calendar.DATE);
+//        int question_number = date % 10;
+//        System.out.println("question_number = " + question_number);
+//    }
+
     public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
     }
@@ -31,11 +39,22 @@ public class QuestionController {
         HashMap<String, Object> result = new HashMap<>();
 
         Calendar today = Calendar.getInstance();
+        today.add(Calendar.HOUR, 9);
         int date = today.get(Calendar.DATE);
         int question_number = date % 10;
 
         if(questionService.questionNumberCheck(question_number) == null){
 
+            result.put("isSuccess", false);
+            result.put("code",404);
+            result.put("message","유효하지 않은 사용자입니다.");
+        }
+        else {
+            result.put("isSuccess", true);
+            result.put("code",200);
+            result.put("message","오늘의 질문을 불러왔어요!");
+
+            result.put("todayQuestion", questionService.questionNumberCheck(question_number));
 
         }
         return result;

@@ -6,8 +6,8 @@
 <mapper namespace="Project.Projectspring.Question.QuestionMapper">
 
     <select id="questionNumberCheck" resultType="String">
-        select question_number
-        from user
+        select question
+        from question
         where question_number = #{question_number}
     </select>
 </mapper>

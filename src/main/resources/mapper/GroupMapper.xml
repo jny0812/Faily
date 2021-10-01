@@ -23,4 +23,10 @@
         where group_code = #{group_code}
     </select>
 
+    <select id="groupIdCheck" resultType="int">
+        select group_id
+        from `group`
+        where group_code = #{group_code}
+    </select>
+
 </mapper>

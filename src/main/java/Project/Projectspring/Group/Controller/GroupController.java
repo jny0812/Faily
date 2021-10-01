@@ -5,22 +5,29 @@ import Project.Projectspring.Group.Service.GroupService;
 import Project.Projectspring.Group.VO.GroupVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Join.VO.JoinVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Random;
 
+//@Headers("Content-Type: application/x-www-form-urlencoded")
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class GroupController {
 
     private final GroupService groupService;
+    //private final GroupController groupController;
 
-    @Autowired
-    public GroupController(GroupService groupService) {this.groupService = groupService;}
+    private final JoinController joinController;
 
+    private final HttpServletResponse response;
+    //private final HttpServletRequest request;
 
     //코드 발급
     @RequestMapping(value = "/GroupCode", method = RequestMethod.POST)
@@ -59,11 +66,16 @@ public class GroupController {
         try {
             groupService.createGroup(group_code);
 
+
+            String a = joinController.remakeJwtToken();
+
+            int group_id = groupService.groupIdCheck(group_code);
+
             result.put("isSuccess", true);
             result.put("code", 200);
             result.put("message", "코드가 발급되었습니다.");
             result.put("GroupCode", group_code);
-
+            result.put("group_id",group_id);
 
         } catch (Exception e) {
             result.put("isSuccess", false);
@@ -84,9 +96,11 @@ public class GroupController {
     public HashMap<String, Object> EntryChat(@RequestBody GroupVO groupVO) throws Exception {
 
         HashMap<String, Object> result = new HashMap<>();
-        GroupController groupController = new GroupController(groupService);
+        //GroupController groupController = new GroupController(groupService);
 
         if(groupService.codeCheck(groupVO) == null){
+
+            String a = joinController.remakeJwtToken();
 
             result.put("isSuccess", false);
             result.put("code",404);
@@ -97,9 +111,7 @@ public class GroupController {
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","채팅방에 참가하였습니다.");
-
         }
-
         return result;
     }
 }

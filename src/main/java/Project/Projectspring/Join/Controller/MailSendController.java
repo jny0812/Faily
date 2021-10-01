@@ -1,6 +1,7 @@
 package Project.Projectspring.Join.Controller;
 
 import Project.Projectspring.Join.Service.JoinService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,20 +14,16 @@ import java.util.Random;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class MailSendController {
 
     private final JoinService joinService;
 
-    @Autowired
-    JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
-    @Autowired
-    public MailSendController(JoinService joinService) {
-        this.joinService = joinService;
-    }
 
     //이메일보내기
-    @RequestMapping( value = "/SendEmail" , method= RequestMethod.POST )
+    @RequestMapping( value = "/SendEmail" , method= RequestMethod.POST)
     @ResponseBody
     public HashMap<String, Object> mailSending (@RequestBody HashMap<String, String > e_mail){
 

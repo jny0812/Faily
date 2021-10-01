@@ -32,4 +32,15 @@ public class GroupDAO implements GroupDAOin{
         return sqlSession.selectOne(NAMESPACE+".codeCheck",groupVO);
     }
 
+    @Override
+    public int groupIdCheck(String group_code) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".groupIdCheck",group_code);
+    }
+
+//    @Override
+//    public void updateUserGroupId(int group_id, String user_email) throws Exception {
+//        return sqlSession.update(NAMESPACE+".updateUserGroupId", user_email)
+//    }
+
+
 }

@@ -1,12 +1,27 @@
 package Project.Projectspring.Join.VO;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
 public class JoinVO {
 
     private String user_email;
     private String user_pw;
     private String user_name;
     private String user_bdate;
+    //private int user_group_id;
 
+    public JoinVO(String user_email, String user_pw, String user_name, String user_bdate, int user_group_id) {
+        this.user_email = user_email;
+        this.user_pw = user_pw;
+        this.user_name = user_name;
+        this.user_bdate = user_bdate;
+        //this.user_group_id = user_group_id;
+    }
 
     public String getUser_email() {
         return user_email;
@@ -21,7 +36,7 @@ public class JoinVO {
     }
 
     public void setUser_pw(String user_pw) {
-        this.user_pw=  user_pw;
+        this.user_pw = user_pw;
     }
 
     public String getUser_name() {
@@ -40,20 +55,16 @@ public class JoinVO {
         this.user_bdate = user_bdate;
     }
 
-    public JoinVO(String user_email, String user_pw, String user_name, String user_bdate) {
-        this.user_email = user_email;
-        this.user_pw = user_pw;
-        this.user_name = user_name;
-        this.user_bdate = user_bdate;
-    }
+//    public int getUser_group_id() {
+//        return user_group_id;
+//    }
 
-    @Override
-    public String toString() {
-        return "JoinVO{" +
-                "user_email='" + user_email + '\'' +
-                ", user_pw='" + user_pw + '\'' +
-                ", user_name='" + user_name + '\'' +
-                ", user_bdate='" + user_bdate + '\'' +
-                '}';
-    }
+//    public void setUser_group_id(int user_group_id) {
+//        this.user_group_id = user_group_id;
+//    }
+
+
+
+
+
 }
