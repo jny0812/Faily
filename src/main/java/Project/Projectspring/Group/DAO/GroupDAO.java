@@ -2,7 +2,8 @@ package Project.Projectspring.Group.DAO;
 
 
 import Project.Projectspring.Group.VO.GroupVO;
-import Project.Projectspring.Join.VO.JoinVO;
+import Project.Projectspring.Group.VO.UserGroupVO;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,10 +38,10 @@ public class GroupDAO implements GroupDAOin{
         return sqlSession.selectOne(NAMESPACE+".groupIdCheck",group_code);
     }
 
-//    @Override
-//    public void updateUserGroupId(int group_id, String user_email) throws Exception {
-//        return sqlSession.update(NAMESPACE+".updateUserGroupId", user_email)
-//    }
+    @Override
+    public void updateUserGroupId( UserGroupVO userGroupVO) throws Exception {
+         sqlSession.update(NAMESPACE+".updateUserGroupId",userGroupVO);
+    }
 
 
 }

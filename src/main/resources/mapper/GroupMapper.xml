@@ -29,4 +29,11 @@
         where group_code = #{group_code}
     </select>
 
+    <update id="updateUserGroupId">
+        update user
+        set
+            user.user_group_id = #{group_id}
+        where `group`.group_id = #{group_id} and user.user_email = #{user_email}
+    </update>
+
 </mapper>

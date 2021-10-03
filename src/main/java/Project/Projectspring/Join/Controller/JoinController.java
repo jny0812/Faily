@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class JoinController {
     //@Headers("Content-Type:application/x-www-form-urlencoded")
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String, Object> JoinDo(@RequestBody JoinVO joinVO) throws SQLException {
+    public HashMap<String, Object> JoinDo(@Valid @RequestBody JoinVO joinVO) throws SQLException {
         HashMap<String,Object> result = new HashMap<>();
         //JoinController joinController = new JoinController(joinService);
         String token = makeJwtToken(joinVO.getUser_email());

@@ -3,6 +3,7 @@ package Project.Projectspring.Group.Controller;
 import Project.Projectspring.Group.DAO.GroupDAO;
 import Project.Projectspring.Group.Service.GroupService;
 import Project.Projectspring.Group.VO.GroupVO;
+import Project.Projectspring.Group.VO.UserGroupVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Join.VO.JoinVO;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class GroupController {
     private final JoinController joinController;
 
     private final HttpServletResponse response;
+    private UserGroupVO userGroupVO;
     //private final HttpServletRequest request;
 
     //코드 발급
@@ -71,11 +73,17 @@ public class GroupController {
 
             int group_id = groupService.groupIdCheck(group_code);
 
+            String e_mail = joinController.getSubject();
+            UserGroupVO userGroupVO = new UserGroupVO(group_id,null, e_mail,group_id);
+            groupService.updateUserGroupId(userGroupVO);
+
             result.put("isSuccess", true);
             result.put("code", 200);
             result.put("message", "코드가 발급되었습니다.");
             result.put("GroupCode", group_code);
             result.put("group_id",group_id);
+            result.put("e_mail",e_mail);
+
 
         } catch (Exception e) {
             result.put("isSuccess", false);

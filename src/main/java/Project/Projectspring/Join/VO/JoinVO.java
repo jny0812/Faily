@@ -6,9 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+
 @ToString
 public class JoinVO {
 
+    @Pattern(regexp = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$",message = "이메일 형식 오류")
     private String user_email;
     private String user_pw;
     private String user_name;

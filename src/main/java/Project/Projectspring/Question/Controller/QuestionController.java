@@ -1,7 +1,10 @@
 package Project.Projectspring.Question.Controller;
 
+import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Question.Service.QuestionService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.mapping.Join;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,9 +15,11 @@ import java.util.HashMap;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final JoinController joinController;
 
 
 //    public static void main(String[] args) {
@@ -25,17 +30,13 @@ public class QuestionController {
 //        System.out.println("question_number = " + question_number);
 //    }
 
-    public QuestionController(QuestionService questionService) {
-        this.questionService = questionService;
-    }
-
 
     //오늘의 질문 불러오기
     @RequestMapping(value = "/todayQuestion", method = RequestMethod.GET)
     @ResponseBody
     public HashMap<String, Object> todayQuestion() throws Exception {
 
-        QuestionController questionController = new QuestionController(questionService);
+        //QuestionController questionController = new QuestionController(questionService);
         HashMap<String, Object> result = new HashMap<>();
 
         Calendar today = Calendar.getInstance();
@@ -44,6 +45,8 @@ public class QuestionController {
         int question_number = date % 10;
 
         if(questionService.questionNumberCheck(question_number) == null){
+
+            String a = joinController.remakeJwtToken();
 
             result.put("isSuccess", false);
             result.put("code",404);

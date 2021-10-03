@@ -3,6 +3,7 @@ package Project.Projectspring.Group.Service;
 
 import Project.Projectspring.Group.DAO.GroupDAO;
 import Project.Projectspring.Group.VO.GroupVO;
+import Project.Projectspring.Group.VO.UserGroupVO;
 import Project.Projectspring.Join.VO.JoinVO;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
@@ -38,10 +39,10 @@ public class GroupService implements GroupServicein {
         return groupDAO.groupIdCheck(group_code);
     }
 
-//    @Override
-//    public void updateUserGroupId(@Param("group_id") int group_id, @Param("user_email") String user_email) throws Exception {
-//        return groupDAO.updateUserGroupId(int group_id);
-//    }
+    @Override
+    public void updateUserGroupId(UserGroupVO userGroupVO) throws Exception {
+        groupDAO.updateUserGroupId(userGroupVO);
+    }
 
 
 }
