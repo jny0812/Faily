@@ -33,7 +33,7 @@
         update user
         set
             user.user_group_id = #{group_id}
-        where `group`.group_id = #{group_id} and user.user_email = #{user_email}
+        where user.user_email = #{user_email}
     </update>
 
 </mapper>
