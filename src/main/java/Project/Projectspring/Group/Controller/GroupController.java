@@ -108,6 +108,8 @@ public class GroupController {
 
         if(groupService.codeCheck(groupVO) == null){
 
+            //int group_id = groupService.groupIdCheck(group_code);
+
             String a = joinController.remakeJwtToken();
 
             result.put("isSuccess", false);
@@ -116,6 +118,14 @@ public class GroupController {
 
         }
         else{
+
+            String group_code = groupService.codeCheck(groupVO);
+            String e_mail = joinController.getSubject();
+            int group_id = groupService.groupIdCheck(group_code);
+
+            UserGroupVO userGroupVO = new UserGroupVO(group_id,null, e_mail,group_id);
+            groupService.updateUserGroupId(userGroupVO);
+
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","채팅방에 참가하였습니다.");

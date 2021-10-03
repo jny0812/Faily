@@ -31,8 +31,7 @@
 
     <update id="updateUserGroupId">
         update user
-        set
-            user.user_group_id = #{group_id}
+        set user.user_group_id = #{group_id}
         where user.user_email = #{user_email}
     </update>
 
