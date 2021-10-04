@@ -20,6 +20,16 @@ public class QuestionDAO implements QuestionDAOin{
         return sqlSession.selectOne(NAMESPACE+".questionNumberCheck",question_number);
     }
 
+    @Override
+    public int userIdCheck(String e_mail) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".userIdCheck",e_mail);
+    }
+
+    @Override
+    public void statusChangeToZero(int user_id) throws Exception {
+        sqlSession.update(NAMESPACE+".statusChangeToZero",user_id);
+    }
+
 
 //    @Override
 //    public ItemVO read(int item_id) throws Exception {

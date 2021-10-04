@@ -15,4 +15,14 @@ public class QuestionService implements QuestionServicein{
     public String questionNumberCheck(int question_number) throws Exception {
        return questionDAO.questionNumberCheck(question_number);
     }
+
+    @Override
+    public int userIdCheck(String e_mail) throws Exception {
+        return questionDAO.userIdCheck(e_mail);
+    }
+
+    @Override
+    public void statusChangeToZero(int user_id) throws Exception {
+        questionDAO.statusChangeToZero(user_id);
+    }
 }

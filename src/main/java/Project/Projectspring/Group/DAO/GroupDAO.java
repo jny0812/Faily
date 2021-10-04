@@ -24,11 +24,6 @@ public class GroupDAO implements GroupDAOin{
     }
 
     @Override
-    public void createCode(GroupVO groupVO) throws Exception {
-        sqlSession.insert(NAMESPACE+".createCode",groupVO);
-    }
-
-    @Override
     public String codeCheck(GroupVO groupVO) throws Exception {
         return sqlSession.selectOne(NAMESPACE+".codeCheck",groupVO);
     }

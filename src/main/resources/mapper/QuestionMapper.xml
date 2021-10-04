@@ -10,4 +10,16 @@
         from question
         where question_number = #{question_number}
     </select>
+
+    <select id="userIdCheck" resultType="int">
+        select user_id
+        from user
+        where user_email = #{user_email}
+    </select>
+
+    <update id="statusChangeToOne">
+        update user
+        set answer_status = 0
+        where user_id = #{user_id}
+    </update>
 </mapper>

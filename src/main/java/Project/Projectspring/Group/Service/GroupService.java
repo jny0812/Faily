@@ -23,11 +23,6 @@ public class GroupService implements GroupServicein {
     }
 
     @Override
-    public void createCode(GroupVO groupVO) throws Exception {
-        groupDAO.createCode(groupVO);
-    }
-
-    @Override
     public String codeCheck(GroupVO groupVO) throws Exception {
 
         return groupDAO.codeCheck(groupVO);

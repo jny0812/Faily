@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Random;
 
-//@Headers("Content-Type: application/x-www-form-urlencoded")
 @RestController
 @Slf4j
 @RequiredArgsConstructor

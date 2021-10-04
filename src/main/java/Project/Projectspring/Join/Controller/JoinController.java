@@ -38,7 +38,7 @@ public class JoinController {
 
     JavaMailSender mailSender;
 
-    //@Headers("Content-Type:application/x-www-form-urlencoded")
+    //회원가입
     @RequestMapping(value = "/joindo",method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String, Object> JoinDo(@Valid @RequestBody JoinVO joinVO) throws SQLException {

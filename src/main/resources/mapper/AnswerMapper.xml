@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Project.Projectspring.Answer.AnswerMapper">
+    <insert id="createAnswer">
+        INSERT INTO answer (
+        answer
+        ,answer_time
+        )VALUES (
+        #{answer}
+        ,#{answer_time}
+        )
+    </insert>
+
+    <select id="checkAnswerId" resultType="int">
+        select answer_id
+        from answer
+        where answer = #{answer}
+    </select>
+
+    <update id="updateAnswerTime">
+        update answer
+        set answer_time = #{answer_time}
+        where answer_id = #{answer_id}
+    </update>
+
+    <select id="userIdCheck" resultType="int">
+        select user_id
+        from user
+        where user_email = #{user_email}
+    </select>
+
+    <update id="updateAnswerUserId">
+        update answer
+        set answer_user_id = #{user_id}
+        where  user_id = #{user_id}
+    </update>
+
+    <update id="statusChangeToOne">
+        update user
+        set answer_status = 1
+        where user_id = #{user_id}
+    </update>
+
+
+
+    <select id="checkUserStatus" resultType="int">
+        select answer_status
+        from user
+        where user_email = #{user_email}
+    </select>
+
+    <select id="answeredUserGroupId" resultType="int">
+        select user_group_id
+        from user
+        where user_email = #{user_email} and answer_status =1
+    </select>
+
+    <select id="answeredUserNumber" resultType="int">
+        select count(user_id)
+        from user
+        where answer_status = 1 and user_group_id = #{user_group_id}
+    </select>
+
+    <select id="userNumber" resultType="int">
+        select count(user_id)
+        from user
+       where user_group_id = #{user_group_id}
+    </select>
+
+</mapper>

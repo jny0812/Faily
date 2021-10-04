@@ -46,13 +46,17 @@ public class QuestionController {
 
         if(questionService.questionNumberCheck(question_number) == null){
 
-            String a = joinController.remakeJwtToken();
-
             result.put("isSuccess", false);
             result.put("code",404);
             result.put("message","유효하지 않은 사용자입니다.");
         }
         else {
+
+            String a = joinController.remakeJwtToken();
+            String e_mail = joinController.getSubject();
+            int user_id = questionService.userIdCheck(e_mail); //
+            questionService.statusChangeToZero(user_id); //답변 미완료 상태로 변경
+
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","오늘의 질문을 불러왔어요!");

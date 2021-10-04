@@ -12,11 +12,6 @@
                 #{group_code})
     </insert>
 
-    <insert id="createCode">
-        INSERT INTO `group` (group_code)
-        VALUES (#{group_code})
-    </insert>
-
     <select id="codeCheck" resultType="String">
         select group_code
         from `group`
