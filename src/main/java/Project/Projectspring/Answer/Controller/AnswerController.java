@@ -36,7 +36,6 @@ public class AnswerController {
 
             answerService.createAnswer(answerVO); //answer 생성
             //answerVO.setAnswer_time((java.sql.Date) answer_time);
-            answerVO.getAnswer_id(); //answer_id 추출
             //answerService.updateAnswerTime(answerVO); //answer_time 등록
 
             String a = joinController.remakeJwtToken();  //토큰
