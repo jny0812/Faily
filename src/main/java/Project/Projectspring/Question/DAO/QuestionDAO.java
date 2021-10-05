@@ -1,9 +1,12 @@
 package Project.Projectspring.Question.DAO;
 
 
+import Project.Projectspring.Question.VO.AllQuestionVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class QuestionDAO implements QuestionDAOin{
@@ -31,8 +34,24 @@ public class QuestionDAO implements QuestionDAOin{
     }
 
 
-//    @Override
-//    public ItemVO read(int item_id) throws Exception {
-//        return sqlSession.selectOne(NAMESPACE+".read",item_id);
-//    }
+    @Override
+    public int questionId(String question) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".questionId",question);
+    }
+
+    @Override
+    public int questionUserGroupId(int user_id) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".questionUserGroupId",user_id);
+    }
+
+    @Override
+    public void createGroupQuestion(AllQuestionVO allQuestionVO) throws Exception {
+        sqlSession.insert(NAMESPACE+".createGroupQuestion", allQuestionVO);
+    }
+
+    @Override
+    public List<Project.Projectspring.Question.VO.AllQuestionVO> allQuestion(int group_id) throws Exception {
+        return sqlSession.selectList(NAMESPACE+".allQuestion",group_id);
+    }
+
 }

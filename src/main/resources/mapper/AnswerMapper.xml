@@ -70,4 +70,10 @@
        where user_group_id = #{user_group_id}
     </select>
 
+    <select id="userName" resultType="int">
+        select user_name
+        from user
+        where user_group_id = #{user_email}
+    </select>
+
 </mapper>

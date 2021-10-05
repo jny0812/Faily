@@ -37,4 +37,9 @@ public class IsAnsweredDAO implements IsAnsweredDAOin{
         return sqlSession.selectOne(NAMESPACE+".userNumber", user_group_id);
     }
 
+    @Override
+    public String userName(String e_mail) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+"userName", e_mail);
+    }
+
 }

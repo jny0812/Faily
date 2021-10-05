@@ -76,7 +76,7 @@ public class GroupController {
             UserGroupVO userGroupVO = new UserGroupVO(group_id,null, e_mail,group_id);
             groupService.updateUserGroupId(userGroupVO);
 
-            result.put("isSuccess", true);
+           result.put("isSuccess", true);
             result.put("code", 200);
             result.put("message", "코드가 발급되었습니다.");
             result.put("GroupCode", group_code);

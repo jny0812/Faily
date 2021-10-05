@@ -11,4 +11,6 @@ public interface IsAnsweredDAOin {
     int answeredUserNumber(int user_group_id) throws Exception;
 
     int userNumber(int user_group_id) throws Exception;
+
+    String userName(String e_mail) throws Exception;
 }

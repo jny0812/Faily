@@ -51,6 +51,8 @@ public class IsAnsweredController {
 
         if(isAnsweredService.checkUserStatus(e_mail)==1) { //개인 답변 완료 상태
 
+            String user_name = isAnsweredService.userName(e_mail);
+
             result.put("isSuccess",true);
             result.put("code",200);
             result.put("message","답변 여부를 불러왔습니다.");
@@ -58,6 +60,7 @@ public class IsAnsweredController {
             //result.put("답변한사람수",answeredNumber);
             //result.put("가족멤버수",userNumber);
             result.put("allAnswered",allanswered(userNumber,answeredNumber));
+            result.put("username", user_name);
 
 
         } else {   //개인 답변 미완료 상태
@@ -69,6 +72,7 @@ public class IsAnsweredController {
             //result.put("답변한사람수",answeredNumber);
             //result.put("가족멤버수",userNumber);
             result.put("allAnswered",allanswered(userNumber,answeredNumber));
+
         } }
         catch(Exception e) {
 

@@ -22,4 +22,40 @@
         set answer_status = 0
         where user_id = #{user_id}
     </update>
+
+    <select id="questionId" resultType="int">
+        select question_id
+        from question
+        where question = #{question}
+    </select>
+
+    <select id="questionUserGroupId" resultType="int">
+        select user_group_id
+        from user
+        where user_id = #{user_id}
+    </select>
+
+    <insert id="createGroupQuestion">
+        INSERT INTO group_question (
+        group_id
+        ,question_id
+        )VALUES (
+        #{group_id}
+        ,#{question_id}
+        )
+    </insert>
+
+    <select id="questionUserGroupId" resultType="int">
+        select user_group_id
+        from user
+        where user_id = #{user_id}
+    </select>
+
+    <select id="allQuestion" resultType="Project.Projectspring.Question.VO.AllQuestionVO">
+        select gq.question_id, q.question
+        from group_question as gq
+        inner join question as q on gq.question_id = q.question_id
+        where gq.group_id = #{group_id}
+        order by q.question_id desc;
+    </select>
 </mapper>

@@ -31,4 +31,9 @@ public class IsAnsweredService implements IsAnsweredServicein{
     public int userNumber(int user_group_id) throws Exception {
         return isAnsweredDAO.userNumber(user_group_id);
     }
+
+    @Override
+    public String userName(String e_mail) throws Exception {
+        return isAnsweredDAO.userName(e_mail);
+    }
 }
