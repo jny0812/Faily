@@ -42,7 +42,7 @@
         )
     </insert>
 
-    <select id="allQuestion" resultType="Project.Projectspring.Question.VO.AllQuestionVO">
+    <select id="allQuestion" resultType="Project.Projectspring.Question.VO.AllQuestionsVO">
         select gq.question_id, q.question
         from group_question as gq
         inner join question as q on gq.question_id = q.question_id
@@ -70,14 +70,14 @@
         where group_id = #{group_id};
     </select>
 
-    <select id="UserAnswer" resultType="Project.Projectspring.Question.VO.AllQuestionVO">
+    <select id="UserAnswer" resultType="Project.Projectspring.Question.VO.AllQuestionsVO">
         select u.user_name, a.answer, a.answer_time
         from answer as a
                  inner join user as u on u.user_id = a.answer_user_id
         where a.answer_group_id = #{answer_group_id}
     </select>
 
-    <select id="GroupquestionAnswer" resultType="Project.Projectspring.Question.VO.AllQuestionVO">
+    <select id="GroupquestionAnswer" resultType="Project.Projectspring.Question.VO.AllQuestionsVO">
         select answer_group_id, answer_question_id
         from  answer as a
                   inner join group_question as gq

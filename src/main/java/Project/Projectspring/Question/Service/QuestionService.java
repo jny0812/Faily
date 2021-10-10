@@ -1,7 +1,7 @@
 package Project.Projectspring.Question.Service;
 
 import Project.Projectspring.Question.DAO.QuestionDAO;
-import Project.Projectspring.Question.VO.AllQuestionVO;
+import Project.Projectspring.Question.VO.AllQuestionsVO;
 import Project.Projectspring.Question.VO.GroupQuestionVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class QuestionService implements QuestionServicein{
     }
 
     @Override
-    public List<AllQuestionVO> allQuestion(int group_id) throws Exception {
+    public List<AllQuestionsVO> allQuestion(int group_id) throws Exception {
         return questionDAO.allQuestion(group_id);
     }
 
@@ -67,12 +67,12 @@ public class QuestionService implements QuestionServicein{
     }
 
     @Override
-    public List<AllQuestionVO> GroupquestionAnswer(int question_id) throws Exception {
+    public List<AllQuestionsVO> GroupquestionAnswer(int question_id) throws Exception {
         return questionDAO.GroupquestionAnswer(question_id);
     }
 
     @Override
-    public List<AllQuestionVO> UserAnswer(int answer_group_id) throws Exception {
+    public List<AllQuestionsVO> UserAnswer(int answer_group_id) throws Exception {
         return questionDAO.UserAnswer(answer_group_id);
     }
 

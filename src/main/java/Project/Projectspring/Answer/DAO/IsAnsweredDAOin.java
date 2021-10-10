@@ -1,5 +1,6 @@
 package Project.Projectspring.Answer.DAO;
 
+import Project.Projectspring.Answer.VO.AnsweredgroupuserVO;
 import Project.Projectspring.Answer.VO.IsAnsweredVO;
 
 public interface IsAnsweredDAOin {
@@ -10,9 +11,11 @@ public interface IsAnsweredDAOin {
 
     int answeredUserNumber(int user_group_id) throws Exception;
 
-    int userNumber(int user_group_id) throws Exception;
+    int userNumber(int group_id) throws Exception;
 
     String userName(String e_mail) throws Exception;
 
     Integer isAnsweredUser(int question_id) throws Exception;
+
+    int answeredgroupuser(AnsweredgroupuserVO answeredgroupuserVO) throws Exception;
 }

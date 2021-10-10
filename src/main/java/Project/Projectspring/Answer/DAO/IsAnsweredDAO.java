@@ -1,5 +1,6 @@
 package Project.Projectspring.Answer.DAO;
 
+import Project.Projectspring.Answer.VO.AnsweredgroupuserVO;
 import Project.Projectspring.Answer.VO.IsAnsweredVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class IsAnsweredDAO implements IsAnsweredDAOin{
     }
 
     @Override
-    public int userNumber(int user_group_id) throws Exception {
-        return sqlSession.selectOne(NAMESPACE+".userNumber", user_group_id);
+    public int userNumber(int group_id) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".userNumber", group_id);
     }
 
     @Override
@@ -45,6 +46,11 @@ public class IsAnsweredDAO implements IsAnsweredDAOin{
     @Override
     public Integer isAnsweredUser(int question_id) throws Exception {
         return sqlSession.selectOne(NAMESPACE+"isAnsweredUser", question_id);
+    }
+
+    @Override
+    public int answeredgroupuser(AnsweredgroupuserVO answeredgroupuserVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".answeredgroupuser",answeredgroupuserVO);
     }
 
 }

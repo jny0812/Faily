@@ -1,13 +1,10 @@
 package Project.Projectspring.Question.Controller;
 
-import Project.Projectspring.Group.VO.UserGroupVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Question.Service.QuestionService;
-import Project.Projectspring.Question.VO.AllQuestionVO;
 import Project.Projectspring.Question.VO.GroupQuestionVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.mapping.Join;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

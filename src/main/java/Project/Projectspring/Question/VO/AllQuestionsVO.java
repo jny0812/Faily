@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class AllQuestionVO {
+public class AllQuestionsVO {
 
     private String question;
     private String user_name;

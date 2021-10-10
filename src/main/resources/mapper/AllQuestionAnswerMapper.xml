@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Project.Projectspring.AllQuestionAnswer.AllQuestionAnswerMapper">
+
+    <select id="getAnswer" resultType="Project.Projectspring.AllQuestionAnswer.VO.AllAnswerVO">
+        select u.user_name, a.answer, a.answer_time
+        from answer as a
+        inner join user as u on u.user_id = a.answer_user_id
+        where answer_question_id = #{question_id} and answer_group_id = #{group_id}
+        order by a.answer_time asc;
+    </select>
+
+    <select id="getQuestion" resultType="Project.Projectspring.AllQuestionAnswer.VO.AllQuestionVO">
+        select gq.question_time, q.question, gq.question_id
+        from group_question as gq
+        inner join question as q on q.question_id = gq.question_id
+        where gq.group_id = #{group_id}
+        order by gq.question_id asc;
+    </select>
+</mapper>

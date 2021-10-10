@@ -2,6 +2,7 @@ package Project.Projectspring.Answer.Service;
 
 import Project.Projectspring.Answer.DAO.AnswerDAO;
 import Project.Projectspring.Answer.DAO.IsAnsweredDAO;
+import Project.Projectspring.Answer.VO.AnsweredgroupuserVO;
 import Project.Projectspring.Answer.VO.IsAnsweredVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class IsAnsweredService implements IsAnsweredServicein{
     }
 
     @Override
-    public int userNumber(int user_group_id) throws Exception {
-        return isAnsweredDAO.userNumber(user_group_id);
+    public int userNumber(int group_id) throws Exception {
+        return isAnsweredDAO.userNumber(group_id);
     }
 
     @Override
@@ -42,5 +43,10 @@ public class IsAnsweredService implements IsAnsweredServicein{
     @Override
     public Integer isAnsweredUser(int question_id) throws Exception {
         return isAnsweredDAO.isAnsweredUser(question_id);
+    }
+
+    @Override
+    public int answeredgroupuser(AnsweredgroupuserVO answeredgroupuserVO) throws Exception {
+        return isAnsweredDAO.answeredgroupuser(answeredgroupuserVO);
     }
 }
