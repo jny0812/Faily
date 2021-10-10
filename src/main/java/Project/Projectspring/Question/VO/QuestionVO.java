@@ -11,12 +11,12 @@ import lombok.ToString;
 public class QuestionVO {
 
     private String question;
-    private int question_number;
     private int answer_status;
+    private String question_time;
 
-    public QuestionVO(String question, int question_number) {
+    public QuestionVO(String question, String question_time) {
         this.question = question;
-        this.question_number = question_number;
         this.answer_status = answer_status;
+        this.question_time = question_time;
     }
 }

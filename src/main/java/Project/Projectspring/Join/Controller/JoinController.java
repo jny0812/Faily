@@ -1,8 +1,10 @@
 package Project.Projectspring.Join.Controller;
 
 
+import Project.Projectspring.Group.Service.GroupService;
 import Project.Projectspring.Join.Service.JoinService;
 import Project.Projectspring.Join.VO.JoinVO;
+import Project.Projectspring.Question.Service.QuestionService;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,6 +30,9 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class JoinController {
+
+    private final QuestionService questionService;
+    private final GroupService groupService;
 
     private final HttpServletRequest request;
     private static final String SECRET_KEY = "aasjjkjaskjdl1k2naskjkdakj34c8sa";
@@ -57,7 +62,7 @@ public class JoinController {
         catch(Exception e) {
 
             result.put("isSuccess", false);
-            result.put("code",409);
+            result.put("code",302);
             result.put("message","이미 존재하는 이메일입니다.");
 
         }
@@ -76,15 +81,29 @@ public class JoinController {
         if(joinService.loginCheck(joinVO) == null){
 
             result.put("isSuccess", false);
-            result.put("code",404);
+            result.put("code",303);
             result.put("message","존재하지 않는 회원정보입니다.");
         }
         else{
-            result.put("isSuccess", true);
-            result.put("code",200);
-            result.put("message","로그인에 성공하였습니다.");
-            result.put("jwt_token", token);
-            //response.setHeader("jwt_token",token);
+
+            int user_id = questionService.userIdCheck(joinVO.getUser_email());
+            int group_id = questionService.questionUserGroupId(user_id);
+            String group_code = groupService.groupCode(group_id);
+
+            if(group_code == null) {
+                result.put("isSuccess", true);
+                result.put("code",200);
+                result.put("message","로그인에 성공하였습니다.");
+                result.put("jwt_token", token);
+            } else {
+                result.put("isSuccess", true);
+                result.put("code",200);
+                result.put("message","로그인에 성공하였습니다.");
+                result.put("jwt_token", token);
+                result.put("group_code",group_code);
+            }
+
+
 
         }
         return result;

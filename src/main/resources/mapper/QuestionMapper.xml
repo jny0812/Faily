@@ -5,19 +5,13 @@
 
 <mapper namespace="Project.Projectspring.Question.QuestionMapper">
 
-    <select id="questionNumberCheck" resultType="String">
-        select question
-        from question
-        where question_number = #{question_number}
-    </select>
-
     <select id="userIdCheck" resultType="int">
         select user_id
         from user
         where user_email = #{user_email}
     </select>
 
-    <update id="statusChangeToOne">
+    <update id="statusChangeToZero">
         update user
         set answer_status = 0
         where user_id = #{user_id}
@@ -39,9 +33,12 @@
         INSERT INTO group_question (
         group_id
         ,question_id
-        )VALUES (
+        ,question_time
+        )
+        VALUES (
         #{group_id}
         ,#{question_id}
+        ,#{question_time}
         )
     </insert>
 
@@ -52,4 +49,68 @@
         where gq.group_id = #{group_id}
         order by q.question_id desc;
     </select>
+
+    <select id="bringQuestion" resultType="string">
+        select q.question
+        from question as q
+        inner join `group` as g on g.group_question_id = q.question_id
+        where g.group_id = #{group_id};
+    </select>
+
+    <update id="ChangeGroupQuestion">
+        update `group`
+        set group_question_id = group_question_id + 1
+        where group_id = #{group_id}
+    </update>
+
+
+    <select id="questionTime" resultType="string">
+        select question_time
+        from group_question
+        where group_id = #{group_id};
+    </select>
+
+    <select id="UserAnswer" resultType="Project.Projectspring.Question.VO.AllQuestionVO">
+        select u.user_name, a.answer, a.answer_time
+        from answer as a
+                 inner join user as u on u.user_id = a.answer_user_id
+        where a.answer_group_id = #{answer_group_id}
+    </select>
+
+    <select id="GroupquestionAnswer" resultType="Project.Projectspring.Question.VO.AllQuestionVO">
+        select answer_group_id, answer_question_id
+        from  answer as a
+                  inner join group_question as gq
+                             on gq.quesiton_id = a.answer_question_id and gq.group_id = a.answer_group_id
+        where question_id = #{question_id}
+    </select>
+
+    <select id="QuestionIdList" resultType="hashmap">
+        select a.answer_group_id, a.answer_question_id
+        from  answer as a
+                  inner join group_question as gq
+                             on gq.quesiton_id = a.answer_question_id and gq.group_id = a.answer_group_id
+        where gq.question_id = #{question_id}
+    </select>
+
+    <select id="selectQuestions" resultMap="selectQuestionId">
+        select gq.question_id, q.question, gq.question_time
+        from group_question as gq
+            inner join question as a on gq.question_id = q.question_id
+        where gq.group_id = #{group_id}
+    </select>
+    
+    <resultMap id="selectQuestionId" type="hashmap">
+        <result column="question_id" property="question_id"/>
+        <result column="question" property="question"/>
+        <result column="question_time" property="question_time"/>
+    </resultMap>
+
+    <select id="isAnswereduserId" resultType="int">
+        select u.answer_status
+        from  user as u
+        inner join answer as a on a.answer_user_id = u.user_id
+        where a.answer_question_id = #{question_id} and a.answer_user_id = #{user_id}
+    </select>
+
 </mapper>

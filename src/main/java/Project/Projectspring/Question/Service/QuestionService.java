@@ -2,10 +2,12 @@ package Project.Projectspring.Question.Service;
 
 import Project.Projectspring.Question.DAO.QuestionDAO;
 import Project.Projectspring.Question.VO.AllQuestionVO;
+import Project.Projectspring.Question.VO.GroupQuestionVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -40,12 +42,43 @@ public class QuestionService implements QuestionServicein{
     }
 
     @Override
-    public void createGroupQuestion(AllQuestionVO allQuestionVO) throws Exception {
-        questionDAO.createGroupQuestion(allQuestionVO);
+    public void createGroupQuestion(GroupQuestionVO groupQuestionVO) throws Exception {
+        questionDAO.createGroupQuestion(groupQuestionVO);
     }
 
     @Override
     public List<AllQuestionVO> allQuestion(int group_id) throws Exception {
         return questionDAO.allQuestion(group_id);
     }
+
+    @Override
+    public String bringQuestion(int group_id) throws Exception {
+        return questionDAO.bringQuestion(group_id);
+    }
+
+    @Override
+    public void ChangeGroupQuestion(int group_id) throws Exception {
+        questionDAO.ChangeGroupQuestion(group_id);
+    }
+
+    @Override
+    public String questionTime(int group_id) throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<AllQuestionVO> GroupquestionAnswer(int question_id) throws Exception {
+        return questionDAO.GroupquestionAnswer(question_id);
+    }
+
+    @Override
+    public List<AllQuestionVO> UserAnswer(int answer_group_id) throws Exception {
+        return questionDAO.UserAnswer(answer_group_id);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectQuestions(int group_id) throws Exception {
+        return questionDAO.selectQuestions(group_id);
+    }
+
 }

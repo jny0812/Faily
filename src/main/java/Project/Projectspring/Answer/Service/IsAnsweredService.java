@@ -6,6 +6,8 @@ import Project.Projectspring.Answer.VO.IsAnsweredVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Service
 @RequiredArgsConstructor
 public class IsAnsweredService implements IsAnsweredServicein{
@@ -35,5 +37,10 @@ public class IsAnsweredService implements IsAnsweredServicein{
     @Override
     public String userName(String e_mail) throws Exception {
         return isAnsweredDAO.userName(e_mail);
+    }
+
+    @Override
+    public Integer isAnsweredUser(int question_id) throws Exception {
+        return isAnsweredDAO.isAnsweredUser(question_id);
     }
 }

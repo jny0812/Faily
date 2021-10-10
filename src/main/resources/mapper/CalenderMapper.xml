@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Project.Projectspring.Calender.CalenderMapper">
+
+    <select id="Calender" resultType="Project.Projectspring.Calender.VO.CalenderVO" parameterType="int">
+        select calender_date, calender_category, calender_name, calender_place, calender_memo, calender_start_time, calender_end_time
+        from calender
+        where calender_group_id = #{group_id}
+        order by calender_id desc;
+    </select>
+
+</mapper>

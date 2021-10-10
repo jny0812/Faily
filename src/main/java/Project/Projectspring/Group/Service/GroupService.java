@@ -2,12 +2,10 @@ package Project.Projectspring.Group.Service;
 
 
 import Project.Projectspring.Group.DAO.GroupDAO;
+import Project.Projectspring.Group.VO.GroupCreateTimeVO;
 import Project.Projectspring.Group.VO.GroupVO;
 import Project.Projectspring.Group.VO.UserGroupVO;
-import Project.Projectspring.Join.VO.JoinVO;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +16,8 @@ public class GroupService implements GroupServicein {
 
 
     @Override
-    public void createGroup(String group_code) throws Exception {
-        groupDAO.createGroup(group_code);
+    public void createGroup(GroupCreateTimeVO groupCreateTimeVO) throws Exception {
+        groupDAO.createGroup(groupCreateTimeVO);
     }
 
     @Override
@@ -37,6 +35,16 @@ public class GroupService implements GroupServicein {
     @Override
     public void updateUserGroupId(UserGroupVO userGroupVO) throws Exception {
         groupDAO.updateUserGroupId(userGroupVO);
+    }
+
+    @Override
+    public Integer isExisted(String e_mail) throws Exception {
+        return groupDAO.isExisted(e_mail);
+    }
+
+    @Override
+    public String groupCode(int group_id) throws Exception {
+        return groupDAO.groupCode(group_id);
     }
 
 

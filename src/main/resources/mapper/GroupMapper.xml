@@ -7,9 +7,11 @@
 
     <insert id="createGroup">
         INSERT INTO `group` (
-                group_code)
+                group_code,
+                group_create_time)
         VALUES (
-                #{group_code})
+                #{group_code},
+                #{group_create_time})
     </insert>
 
     <select id="codeCheck" resultType="String">
@@ -29,5 +31,17 @@
         set user.user_group_id = #{group_id}
         where user.user_email = #{user_email}
     </update>
+
+    <select id="isExisted" resultType="Integer">
+        select user_group_id
+        from user
+        where user_email = #{e_mail}
+    </select>
+
+    <select id="groupCode" resultType="string">
+        select group_code
+        from `group`
+        where group_id = #{group_id}
+    </select>
 
 </mapper>

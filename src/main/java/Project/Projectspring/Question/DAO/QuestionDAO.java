@@ -2,11 +2,13 @@ package Project.Projectspring.Question.DAO;
 
 
 import Project.Projectspring.Question.VO.AllQuestionVO;
+import Project.Projectspring.Question.VO.GroupQuestionVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class QuestionDAO implements QuestionDAOin{
@@ -45,13 +47,48 @@ public class QuestionDAO implements QuestionDAOin{
     }
 
     @Override
-    public void createGroupQuestion(AllQuestionVO allQuestionVO) throws Exception {
-        sqlSession.insert(NAMESPACE+".createGroupQuestion", allQuestionVO);
+    public void createGroupQuestion(GroupQuestionVO groupQuestionVO) throws Exception {
+        sqlSession.insert(NAMESPACE+".createGroupQuestion", groupQuestionVO);
     }
 
     @Override
     public List<Project.Projectspring.Question.VO.AllQuestionVO> allQuestion(int group_id) throws Exception {
         return sqlSession.selectList(NAMESPACE+".allQuestion",group_id);
+    }
+
+    @Override
+    public String bringQuestion(int group_id) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".bringQuestion",group_id);
+    }
+
+    @Override
+    public void ChangeGroupQuestion(int group_id) throws Exception {
+        sqlSession.update(NAMESPACE + ".ChangeGroupQuestion", group_id);
+    }
+
+    @Override
+    public String questionTime(int group_id) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".questionTime",group_id);
+    }
+
+    @Override
+    public List<AllQuestionVO> GroupquestionAnswer(int question_id) throws Exception {
+        return sqlSession.selectList(NAMESPACE+".questionTime",question_id);
+    }
+
+    @Override
+    public List<AllQuestionVO> UserAnswer(int answer_group_id) throws Exception {
+        return sqlSession.selectList(NAMESPACE+".UserAnswer",answer_group_id);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectQuestions(int group_id) throws Exception {
+        return sqlSession.selectList(NAMESPACE+".quesitongroupuser",group_id);
+    }
+
+    @Override
+    public int isAnsweredUser(int question_id) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".isAnsweredUser",question_id);
     }
 
 }

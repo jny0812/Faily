@@ -7,6 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 public class UserGroupVO {
+
     @NonNull
     int group_id;
     String group_code;

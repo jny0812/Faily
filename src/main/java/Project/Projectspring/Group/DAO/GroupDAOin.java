@@ -1,11 +1,12 @@
 package Project.Projectspring.Group.DAO;
 
+import Project.Projectspring.Group.VO.GroupCreateTimeVO;
 import Project.Projectspring.Group.VO.GroupVO;
 import Project.Projectspring.Group.VO.UserGroupVO;
 
 public interface GroupDAOin {
 
-    void createGroup(String group_code) throws Exception;
+    void createGroup(GroupCreateTimeVO groupCreateTimeVO) throws Exception;
 
     String codeCheck(GroupVO groupVO) throws Exception;
 
@@ -13,4 +14,9 @@ public interface GroupDAOin {
     int groupIdCheck(String group_code) throws Exception;
 
     void updateUserGroupId (UserGroupVO userGroupVO) throws Exception;
+
+    Integer isExisted(String e_mail) throws Exception;
+
+    String groupCode(int group_id) throws Exception;
+
 }

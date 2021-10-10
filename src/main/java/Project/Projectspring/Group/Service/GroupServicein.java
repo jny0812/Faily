@@ -1,14 +1,13 @@
 package Project.Projectspring.Group.Service;
 
 
+import Project.Projectspring.Group.VO.GroupCreateTimeVO;
 import Project.Projectspring.Group.VO.GroupVO;
 import Project.Projectspring.Group.VO.UserGroupVO;
-import Project.Projectspring.Join.VO.JoinVO;
-import org.apache.ibatis.annotations.Param;
 
 public interface GroupServicein {
 
-    void createGroup(String group_code) throws Exception;
+    void createGroup(GroupCreateTimeVO groupCreateTimeVO) throws Exception;
 
     String codeCheck(GroupVO groupVO) throws Exception;
 
@@ -16,4 +15,8 @@ public interface GroupServicein {
     int groupIdCheck(String group_code) throws Exception;
 
     void updateUserGroupId(UserGroupVO userGroupVO) throws Exception;
+
+    Integer isExisted(String e_mail) throws Exception;
+
+    String groupCode(int group_id) throws Exception;
 }

@@ -2,10 +2,12 @@ package Project.Projectspring.Group.Controller;
 
 import Project.Projectspring.Group.DAO.GroupDAO;
 import Project.Projectspring.Group.Service.GroupService;
+import Project.Projectspring.Group.VO.GroupCreateTimeVO;
 import Project.Projectspring.Group.VO.GroupVO;
 import Project.Projectspring.Group.VO.UserGroupVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Join.VO.JoinVO;
+import Project.Projectspring.Question.Service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -25,6 +30,7 @@ public class GroupController {
     //private final GroupController groupController;
 
     private final JoinController joinController;
+    private final QuestionService questionService;
 
     private final HttpServletResponse response;
     private UserGroupVO userGroupVO;
@@ -64,38 +70,56 @@ public class GroupController {
             group_code = temp.toString();
         }
 
-        try {
-            groupService.createGroup(group_code);
-
-
             String a = joinController.remakeJwtToken();
+            String e_mail = joinController.getSubject(); //user_email 추출
+            int user_id = questionService.userIdCheck(e_mail);  //user_id 추출
 
-            int group_id = groupService.groupIdCheck(group_code);
+            if (e_mail == null) {
+                result.put("isSuccess", false);
+                result.put("code", 301);
+                result.put("message", "이미 그룹이 존재합니다.");
 
-            String e_mail = joinController.getSubject();
-            UserGroupVO userGroupVO = new UserGroupVO(group_id,null, e_mail,group_id);
-            groupService.updateUserGroupId(userGroupVO);
+            }
+            else if(groupService.isExisted(e_mail) == null) {
 
-           result.put("isSuccess", true);
-            result.put("code", 200);
-            result.put("message", "코드가 발급되었습니다.");
-            result.put("GroupCode", group_code);
-            result.put("group_id",group_id);
-            result.put("e_mail",e_mail);
+                Date time = new Date();
+                SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+                Calendar cal = Calendar.getInstance(); cal.setTime(time);
+                cal.add(Calendar.HOUR, 9);
+                String group_create_time = sdformat.format(cal.getTime());
+
+                GroupCreateTimeVO groupCreateTimeVO = new GroupCreateTimeVO(group_code,group_create_time);
+                groupService.createGroup(groupCreateTimeVO); //group 생성
 
 
-        } catch (Exception e) {
-            result.put("isSuccess", false);
-            result.put("code", 404);
-            result.put("message", "네트워크 오류");
-        }
+                int group_id = groupService.groupIdCheck(group_code);
+
+                UserGroupVO userGroupVO = new UserGroupVO(group_id,null, e_mail,group_id);
+                groupService.updateUserGroupId(userGroupVO);
+
+                result.put("isSuccess", true);
+                result.put("code", 200);
+                result.put("message", "코드가 발급되었습니다.");
+                result.put("GroupCode", group_code);
+                result.put("group_id",group_id);
+                result.put("e_mail",e_mail);
+            }
+            else {
+
+                int group_id = questionService.questionUserGroupId(user_id);
+
+                String created_group_code = groupService.groupCode(group_id);
+
+                result.put("isSuccess", true);
+                result.put("code", 200);
+                result.put("message", "코드가 발급되었습니다.");
+                result.put("GroupCode", created_group_code);
+
+            }
 
         return result;
     }
 
-//    public static void main(String[] group_code) {
-//        System.out.println("group_code = " + group_code);
-//    }
 
     //채팅방 참가
     @ResponseBody
@@ -131,5 +155,7 @@ public class GroupController {
         }
         return result;
     }
+
+
 }
 

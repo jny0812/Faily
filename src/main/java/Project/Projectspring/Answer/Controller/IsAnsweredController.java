@@ -35,19 +35,7 @@ public class IsAnsweredController {
 
         try {
 
-            log.warn(e_mail);
 
-            int user_group_id = isAnsweredService.answeredUserGroupId(e_mail);
-
-            log.warn(String.valueOf(user_group_id));
-
-            int answeredNumber = isAnsweredService.answeredUserNumber(user_group_id); //가족 중 답변 완료한 사람 수
-
-            log.warn(String.valueOf(answeredNumber));
-
-            int userNumber = isAnsweredService.userNumber(user_group_id); //가족 멤버 수
-
-            log.warn(String.valueOf(userNumber));
 
         if(isAnsweredService.checkUserStatus(e_mail)==1) { //개인 답변 완료 상태
 
@@ -57,9 +45,7 @@ public class IsAnsweredController {
             result.put("code",200);
             result.put("message","답변 여부를 불러왔습니다.");
             result.put("isAnswered", true);
-            //result.put("답변한사람수",answeredNumber);
-            //result.put("가족멤버수",userNumber);
-            result.put("allAnswered",allanswered(userNumber,answeredNumber));
+//            result.put("allAnswered",allanswered(userNumber,answeredNumber));
             result.put("username", user_name);
 
 
@@ -71,7 +57,7 @@ public class IsAnsweredController {
             result.put("isAnswered", false);
             //result.put("답변한사람수",answeredNumber);
             //result.put("가족멤버수",userNumber);
-            result.put("allAnswered",allanswered(userNumber,answeredNumber));
+//            result.put("allAnswered",allanswered(userNumber,answeredNumber));
 
         } }
         catch(Exception e) {
@@ -85,8 +71,8 @@ public class IsAnsweredController {
     }
 
     //가족 답변 여부 method
-    public boolean allanswered(int userNumber,int answeredNumber) {
-        if(userNumber == answeredNumber) {
-            return true;
-        } else { return false;} }
+//    public boolean allanswered(int userNumber,int answeredNumber) {
+//        if(userNumber == answeredNumber) {
+//            return true;
+//        } else { return false;} }
 }

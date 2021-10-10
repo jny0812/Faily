@@ -1,9 +1,9 @@
 package Project.Projectspring.Group.DAO;
 
 
+import Project.Projectspring.Group.VO.GroupCreateTimeVO;
 import Project.Projectspring.Group.VO.GroupVO;
 import Project.Projectspring.Group.VO.UserGroupVO;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,8 +19,8 @@ public class GroupDAO implements GroupDAOin{
     public GroupDAO(SqlSession sqlSession) { this.sqlSession = sqlSession;}
 
     @Override
-    public void createGroup(String group_code) throws Exception {
-        sqlSession.insert(NAMESPACE+".createGroup",group_code);
+    public void createGroup(GroupCreateTimeVO groupCreateTimeVO) throws Exception {
+        sqlSession.insert(NAMESPACE+".createGroup",groupCreateTimeVO);
     }
 
     @Override
@@ -36,6 +36,16 @@ public class GroupDAO implements GroupDAOin{
     @Override
     public void updateUserGroupId( UserGroupVO userGroupVO) throws Exception {
          sqlSession.update(NAMESPACE+".updateUserGroupId",userGroupVO);
+    }
+
+    @Override
+    public Integer isExisted(String e_mail) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".isExisted",e_mail);
+    }
+
+    @Override
+    public String groupCode(int group_id) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".groupCode",group_id);
     }
 
 
