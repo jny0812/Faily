@@ -81,7 +81,7 @@ public class AllQuestionAnswerContoller {
                 AnswerNeedVO answerNeedVO = new AnswerNeedVO(question_id, group_id);
                 List<AllAnswerVO> allAnswerVOS = allQuestionAnswerService.getAnswer(answerNeedVO);
 
-                allQuestionVOS.add(i, allAnswerVOS);
+                allQuestionVOS.set(i,allAnswerVOS);
 
                 allQuestionVOS.get(i);
 
