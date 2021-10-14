@@ -1,5 +1,6 @@
 package Project.Projectspring.Answer.VO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,16 +8,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 public class IsAnsweredVO {
     private int user_id;
-    private String user_email;
-    private int user_group_id;
-    private int status;
+    private int question_id;
 
-    public IsAnsweredVO() {
-        this.user_id = user_id;
-        this.user_email = user_email;
-        this.user_group_id = user_group_id;
-        this.status = status;
-    }
 }

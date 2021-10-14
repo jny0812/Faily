@@ -1,6 +1,7 @@
 package Project.Projectspring.Answer.Service;
 
 import Project.Projectspring.Answer.VO.AnsweredgroupuserVO;
+import Project.Projectspring.Answer.VO.IsAnsweredVO;
 
 public interface IsAnsweredServicein {
 
@@ -14,7 +15,7 @@ public interface IsAnsweredServicein {
 
     String userName(String e_mail) throws Exception;
 
-    Integer isAnsweredUser(int question_id) throws Exception;
+    Integer isAnsweredUser(IsAnsweredVO isAnsweredVO) throws Exception;
 
     int answeredgroupuser(AnsweredgroupuserVO answeredgroupuserVO) throws Exception;
 

@@ -21,7 +21,7 @@ public class IsAnsweredController {
     private final IsAnsweredService isAnsweredService;
     private final JoinController joinController;
 
-    IsAnsweredVO isAnsweredVO = new IsAnsweredVO();
+//    IsAnsweredVO isAnsweredVO = new IsAnsweredVO(user_id, );
 
     //답변 여부 체크하기
     @RequestMapping(value = "/isAnswered", method = RequestMethod.GET)

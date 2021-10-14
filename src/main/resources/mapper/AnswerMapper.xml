@@ -63,7 +63,6 @@
         where e_mail = #{user_email} and answer_status = 1
     </select>
 
-
     <select id="userAnswer" resultType="string">
         select answer
         from answer as a
@@ -71,17 +70,16 @@
         where user_id = #{user_id}
     </select>
 
-
     <select id="bringGroupQuestionId" resultType="int">
         select group_question_id
         from `group`
         where group_id = #{group_id}
     </select>
 
-    <select id="isAnsweredUser" resultType="Integer">
+    <select id="isAnsweredUser" resultType="Integer" parameterType="Project.Projectspring.Answer.VO.IsAnsweredVO">
         select answer_user_id
         from answer
-        where answer_question_id = #{question_id}
+        where answer_question_id = #{question_id} and answer_user_id = #{user_id}
     </select>
 
     <select id="answeredgroupuser" resultType="int">

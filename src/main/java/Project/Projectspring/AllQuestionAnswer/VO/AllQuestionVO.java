@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class AllQuestionVO {
 
-    private String question_time;
-    private String question;
-//    private boolean isAnswered;
-//    private boolean allAnswered;
-//    private List<AllAnswerVO> allAnswerVOS;
-    private int question_id;
+  private List<Boolean> isAnswered;
+  private List<Boolean> allAnswered;
+  private List<AllAnswerVO> allAnswerVOS;
+  private List<QuestionListVO> questionListVOS;
+// private  ArrayList<List<Object>>  questionAnswerListVOS;
+
 }

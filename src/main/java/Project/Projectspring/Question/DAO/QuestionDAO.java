@@ -86,9 +86,5 @@ public class QuestionDAO implements QuestionDAOin{
         return sqlSession.selectList(NAMESPACE+".quesitongroupuser",group_id);
     }
 
-    @Override
-    public int isAnsweredUser(int question_id) throws Exception {
-        return sqlSession.selectOne(NAMESPACE+".isAnsweredUser",question_id);
-    }
 
 }

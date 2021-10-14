@@ -40,12 +40,12 @@ public class IsAnsweredDAO implements IsAnsweredDAOin{
 
     @Override
     public String userName(String e_mail) throws Exception {
-        return sqlSession.selectOne(NAMESPACE+"userName", e_mail);
+        return sqlSession.selectOne(NAMESPACE+".userName", e_mail);
     }
 
     @Override
-    public Integer isAnsweredUser(int question_id) throws Exception {
-        return sqlSession.selectOne(NAMESPACE+"isAnsweredUser", question_id);
+    public Integer isAnsweredUser(IsAnsweredVO isAnsweredVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".isAnsweredUser", isAnsweredVO);
     }
 
     @Override

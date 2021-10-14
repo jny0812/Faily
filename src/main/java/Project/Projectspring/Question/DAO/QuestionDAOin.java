@@ -34,6 +34,4 @@ public interface QuestionDAOin {
 
     List<Map<String,Object>> selectQuestions(int group_id) throws Exception;
 
-    int isAnsweredUser(int question_id) throws Exception;
-
 }

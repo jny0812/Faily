@@ -13,7 +13,7 @@
         order by a.answer_time asc;
     </select>
 
-    <select id="getQuestion" resultType="Project.Projectspring.AllQuestionAnswer.VO.AllQuestionVO">
+    <select id="getQuestion" resultType="Project.Projectspring.AllQuestionAnswer.VO.QuestionListVO">
         select gq.question_time, q.question, gq.question_id
         from group_question as gq
         inner join question as q on q.question_id = gq.question_id

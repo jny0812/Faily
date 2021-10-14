@@ -3,6 +3,7 @@ package Project.Projectspring.AllQuestionAnswer.DAO;
 import Project.Projectspring.AllQuestionAnswer.VO.AllAnswerVO;
 import Project.Projectspring.AllQuestionAnswer.VO.AllQuestionVO;
 import Project.Projectspring.AllQuestionAnswer.VO.AnswerNeedVO;
+import Project.Projectspring.AllQuestionAnswer.VO.QuestionListVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,7 +28,7 @@ public class AllQuestionAnswerDAO implements AllQuestionAnswerDAOin{
     }
 
     @Override
-    public List<AllQuestionVO> getQuestion(int group_id) throws Exception {
+    public List<QuestionListVO> getQuestion(int group_id) throws Exception {
         return sqlSession.selectList(NAMESPACE+".getQuestion",group_id);
     }
 }

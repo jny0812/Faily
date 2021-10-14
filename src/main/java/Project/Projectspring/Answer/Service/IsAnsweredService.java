@@ -41,8 +41,8 @@ public class IsAnsweredService implements IsAnsweredServicein{
     }
 
     @Override
-    public Integer isAnsweredUser(int question_id) throws Exception {
-        return isAnsweredDAO.isAnsweredUser(question_id);
+    public Integer isAnsweredUser(IsAnsweredVO isAnsweredVO) throws Exception {
+        return isAnsweredDAO.isAnsweredUser(isAnsweredVO);
     }
 
     @Override
