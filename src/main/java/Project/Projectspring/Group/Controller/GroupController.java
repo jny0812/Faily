@@ -77,16 +77,21 @@ public class GroupController {
             if (e_mail == null) {
                 result.put("isSuccess", false);
                 result.put("code", 301);
-                result.put("message", "이미 그룹이 존재합니다.");
+                result.put("message", "유효하지 않은 사용자입니다.");
 
             }
+
             else if(groupService.isExisted(e_mail) == null) {
 
                 Date time = new Date();
                 SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar cal = Calendar.getInstance(); cal.setTime(time);
-                cal.add(Calendar.HOUR, 9);
+
+//                cal.add(Calendar.HOUR, +9);
+
                 String group_create_time = sdformat.format(cal.getTime());
+
+                log.warn(group_create_time);
 
                 GroupCreateTimeVO groupCreateTimeVO = new GroupCreateTimeVO(group_code,group_create_time);
                 groupService.createGroup(groupCreateTimeVO); //group 생성
@@ -103,6 +108,7 @@ public class GroupController {
                 result.put("GroupCode", group_code);
                 result.put("group_id",group_id);
                 result.put("e_mail",e_mail);
+                result.put("create_date",group_create_time);
             }
             else {
 
@@ -110,9 +116,9 @@ public class GroupController {
 
                 String created_group_code = groupService.groupCode(group_id);
 
-                result.put("isSuccess", true);
-                result.put("code", 200);
-                result.put("message", "코드가 발급되었습니다.");
+                result.put("isSuccess", false);
+                result.put("code", 303);
+                result.put("message", "이미 참가한 사용자입니다.");
                 result.put("GroupCode", created_group_code);
 
             }
@@ -126,6 +132,10 @@ public class GroupController {
     @RequestMapping(value = "/EntryChat",method = RequestMethod.POST)
     public HashMap<String, Object> EntryChat(@RequestBody GroupVO groupVO) throws Exception {
 
+        String a = joinController.remakeJwtToken();
+        String e_mail = joinController.getSubject(); //user_email 추출
+        int user_id = questionService.userIdCheck(e_mail);  //user_id 추출
+
         HashMap<String, Object> result = new HashMap<>();
         //GroupController groupController = new GroupController(groupService);
 
@@ -133,17 +143,17 @@ public class GroupController {
 
             //int group_id = groupService.groupIdCheck(group_code);
 
-            String a = joinController.remakeJwtToken();
+//            String a = joinController.remakeJwtToken();
 
             result.put("isSuccess", false);
-            result.put("code",404);
+            result.put("code",302);
             result.put("message","존재하지 않는 채팅방입니다.");
 
         }
-        else{
+        else if(groupService.isExisted(e_mail) == null) {
 
             String group_code = groupService.codeCheck(groupVO);
-            String e_mail = joinController.getSubject();
+//            String e_mail = joinController.getSubject();
             int group_id = groupService.groupIdCheck(group_code);
 
             UserGroupVO userGroupVO = new UserGroupVO(group_id,null, e_mail,group_id);
@@ -152,6 +162,16 @@ public class GroupController {
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","채팅방에 참가하였습니다.");
+        }
+        else{
+            int group_id = questionService.questionUserGroupId(user_id);
+
+            String created_group_code = groupService.groupCode(group_id);
+
+            result.put("isSuccess", false);
+            result.put("code", 303);
+            result.put("message", "이미 참가한 사용자입니다.");
+            result.put("GroupCode", created_group_code);
         }
         return result;
     }

@@ -10,4 +10,6 @@ public interface JoinServicein {
         void create(JoinVO joinVO) throws Exception;
 
         String loginCheck(JoinVO joinVO) throws Exception;
+
+        String passwordCheck(JoinVO joinVO) throws Exception;
 }

@@ -9,4 +9,6 @@ public interface JoinDAOin {
 
     String loginCheck(JoinVO joinVO) throws Exception;
 
+    String passwordCheck(JoinVO joinVO) throws Exception;
+
 }

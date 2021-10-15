@@ -45,7 +45,7 @@ public class AnswerController {
         if(e_mail == null) {
 
             result.put("isSuccess",false);
-            result.put("code",400);
+            result.put("code",301);
             result.put("message","유효하지 않은 사용자입니다.");
 
             return result;}
@@ -53,7 +53,7 @@ public class AnswerController {
            else if (isAnsweredService.checkUserStatus(e_mail) == 1) {
 
             result.put("isSuccess",false);
-            result.put("code",400);
+            result.put("code",302);
             result.put("message","이미 답변을 완료하였습니다.");
 
             return result;

@@ -25,7 +25,7 @@ public class CalenderController {
     private Object List;
 
     //전체 달력 불러오기
-    @RequestMapping(value = "/Calender", method = RequestMethod.GET)
+    @RequestMapping(value = "/Calendar", method = RequestMethod.GET)
     @ResponseBody
     public Object Calender() throws Exception {
 

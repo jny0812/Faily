@@ -7,7 +7,7 @@ import Project.Projectspring.Answer.VO.AnsweredgroupuserVO;
 import Project.Projectspring.Answer.VO.IsAnsweredVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Question.Service.QuestionService;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,86 +26,173 @@ public class AllQuestionAnswerController {
     private final IsAnsweredService isAnsweredService;
     private final AllQuestionAnswerService allQuestionAnswerService;
 
-    /**전체 질문 불러오기 **/
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class QuestionList{
+        String question;
+//        String question_time;
+        List<AllAnswerVO> answerInfo;
+        List<Boolean> isAnswered;
+        List<Boolean> allAnswered;
+
+        public QuestionList(int question_id, String question, Object allAnswers, boolean isAnswered, boolean allAsnwered) {
+        }
+    }
+
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class responseAnswer{
+        boolean isSuccess;
+        int code;
+        String message;
+        Map<String,Object> result;
+    }
+
+    /**전체 질문 불러오기
+     * @return**/
     @RequestMapping(value = "/allQuestion", method = RequestMethod.GET)
     @ResponseBody
-    public Object allQuestion( AllQuestionVO allQuestionVO) throws  Exception {
-
+    public Object makeAllAnswer() throws Exception {
         String a = joinController.remakeJwtToken();
         String e_mail = joinController.getSubject(); //이메일 추출
         int user_id = questionService.userIdCheck(e_mail);
         int group_id = questionService.questionUserGroupId(user_id);  //질문한 user의 group_id 추출
-
         int userNumber = isAnsweredService.userNumber(group_id);   //가족 멤버 수
 
-        HashMap<String, Object> result = new HashMap<>();
-
-//       int user_group_id = isAnsweredService.answeredUserGroupId(e_mail);
-//        int answeredNumber = isAnsweredService.answeredUserNumber(user_group_id); //가족 중 답변 완료한 사람 수
-
-        if(e_mail==null) {
+        if(a==null) {
+            HashMap<String, Object> result = new HashMap<>();
 
             result.put("isSuccess", false);
-            result.put("code",302);
+            result.put("code",301);
             result.put("message","유효하지 않은 사용자입니다.");
 
             return result;
 
         } else {
+        responseAnswer response = new responseAnswer(true, 200, "전체 질문을 불러왔습니다.", null);
 
-            result.put("isSuccess", true);
-            result.put("code",200);
-            result.put("message","전체 질문을 불러왔습니다.");
+        Map<String, Object> map = new HashMap<>(); //(질문 불러온 날짜, 그 날짜에 대한  allanswer)
 
-            ArrayList<List<Object>> questionAnswerListVOS = new ArrayList<>();
 
-            List<QuestionListVO> questionListVOS = allQuestionAnswerService.getQuestion(group_id);
+        List<QuestionListVO> questionListVOS = allQuestionAnswerService.getQuestion(group_id);
 
-            for(int i=0 ; i<questionListVOS.size() ; i++) {
-                int question_id = questionListVOS.get(i).getQuestion_id(); //question_id 추출
+        for(int i=0; i<questionListVOS.size(); i++){
+            int question_id = questionListVOS.get(i).getQuestion_id(); //question_id 추출
+            String question = questionListVOS.get(i).getQuestion();
+            String question_time = questionListVOS.get(i).getQuestion_time();
 
-//                questionAnswerListVOS.add(Collections.singletonList(questionListVOS));
+            log.warn(String.valueOf(question_id));
+            log.warn(String.valueOf(question));
 
-                IsAnsweredVO isAnsweredVO = new IsAnsweredVO(user_id,question_id);
+            IsAnsweredVO isAnsweredVO = new IsAnsweredVO(user_id,question_id);
 
-                AnsweredgroupuserVO answeredgroupuserVO = new AnsweredgroupuserVO(question_id,group_id);
-                int answeredgroupuser = isAnsweredService.answeredgroupuser(answeredgroupuserVO);
+            AnsweredgroupuserVO answeredgroupuserVO = new AnsweredgroupuserVO(question_id,group_id);
+            int answeredgroupuser = isAnsweredService.answeredgroupuser(answeredgroupuserVO);
 
-                AnswerNeedVO answerNeedVO = new AnswerNeedVO(question_id, group_id);
 
-                log.warn(String.valueOf(question_id));
+            List<Boolean> isAnswered = Collections.singletonList(isAnswered(isAnsweredVO));
+            List<Boolean> allAnswered = Collections.singletonList(allanswered(userNumber, answeredgroupuser));
 
-                List<AllAnswerVO> allAnswerVOS =  allQuestionAnswerService.getAnswer(answerNeedVO);
+//            boolean isAnswered = true;
+//            boolean allAsnwered = true;
+            QuestionList questionList = new QuestionList(question, null, isAnswered, allAnswered);
 
-                log.warn(String.valueOf(allAnswerVOS));
+            AnswerNeedVO answerNeedVO = new AnswerNeedVO(question_id, group_id);
+            List<AllAnswerVO> allAnswerVOS =  allQuestionAnswerService.getAnswer(answerNeedVO);
 
-//                for(int j = 0; j<allAnswerVOS.size(); j++) {
-////                    questionAnswerListVOS.get(i).get(j).setAllAnswerVOS(allAnswerVOS);
-//                    questionAnswerListVOS.add(Collections.singletonList(allAnswerVOS));
-//                }
-
-               List<Boolean> isAnswered = Collections.singletonList(isAnswered(isAnsweredVO));
-              List<Boolean> allAnswered = Collections.singletonList(allanswered(userNumber, answeredgroupuser));
-
-//                QuestionListAnswerVO questionListAnswerVO = new QuestionListAnswerVO(allAnswerVOS,questionListVOS);
-
-//                allQuestionVO.setQuestionAnswerListVOS(questionAnswerListVOS);
-
-                allQuestionVO.setQuestionListVOS(questionListVOS);
-                allQuestionVO.setAllAnswerVOS(allAnswerVOS);
-                allQuestionVO.setAllAnswered(allAnswered);
-                allQuestionVO.setIsAnswered(isAnswered);
-
-                result.put("result",allQuestionVO);
-//                result.put("answervo",allAnswerVOS);
-            }
-            return result;
-
+            questionList.setAnswerInfo(allAnswerVOS);
+            map.put(question_time, questionList);
         }
-    }
+
+        response.setResult(map);
+
+        return response;} }
+
+        /**전체 질문 불러오기 **/
+//    @RequestMapping(value = "/allQuestions", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Object allQuestion( AllQuestionVO allQuestionVO) throws  Exception {
+//
+//        String a = joinController.remakeJwtToken();
+//        String e_mail = joinController.getSubject(); //이메일 추출
+//        int user_id = questionService.userIdCheck(e_mail);
+//        int group_id = questionService.questionUserGroupId(user_id);  //질문한 user의 group_id 추출
+//
+//        int userNumber = isAnsweredService.userNumber(group_id);   //가족 멤버 수
+//
+//        HashMap<String, Object> result = new HashMap<>();
+//
+////       int user_group_id = isAnsweredService.answeredUserGroupId(e_mail);
+////        int answeredNumber = isAnsweredService.answeredUserNumber(user_group_id); //가족 중 답변 완료한 사람 수
+//
+//        if(e_mail==null) {
+//
+//            result.put("isSuccess", false);
+//            result.put("code",302);
+//            result.put("message","유효하지 않은 사용자입니다.");
+//
+//            return result;
+//
+//        } else {
+//
+//            result.put("isSuccess", true);
+//            result.put("code",200);
+//            result.put("message","전체 질문을 불러왔습니다.");
+//
+//            ArrayList<List<Object>> questionAnswerListVOS = new ArrayList<>();
+//
+//            List<QuestionListVO> questionListVOS = allQuestionAnswerService.getQuestion(group_id);
+//
+//            for(int i=0 ; i<questionListVOS.size() ; i++) {
+//                int question_id = questionListVOS.get(i).getQuestion_id(); //question_id 추출
+//
+////                questionAnswerListVOS.add(Collections.singletonList(questionListVOS));
+//
+//                IsAnsweredVO isAnsweredVO = new IsAnsweredVO(user_id,question_id);
+//
+//                AnsweredgroupuserVO answeredgroupuserVO = new AnsweredgroupuserVO(question_id,group_id);
+//                int answeredgroupuser = isAnsweredService.answeredgroupuser(answeredgroupuserVO);
+//
+//                AnswerNeedVO answerNeedVO = new AnswerNeedVO(question_id, group_id);
+//
+//                log.warn(String.valueOf(question_id));
+//
+//                List<AllAnswerVO> allAnswerVOS =  allQuestionAnswerService.getAnswer(answerNeedVO);
+//
+//                log.warn(String.valueOf(allAnswerVOS));
+//
+////                for(int j = 0; j<allAnswerVOS.size(); j++) {
+//////                    questionAnswerListVOS.get(i).get(j).setAllAnswerVOS(allAnswerVOS);
+////                    questionAnswerListVOS.add(Collections.singletonList(allAnswerVOS));
+////                }
+//
+//               List<Boolean> isAnswered = Collections.singletonList(isAnswered(isAnsweredVO));
+//              List<Boolean> allAnswered = Collections.singletonList(allanswered(userNumber, answeredgroupuser));
+//
+////                QuestionListAnswerVO questionListAnswerVO = new QuestionListAnswerVO(allAnswerVOS,questionListVOS);
+//
+////                allQuestionVO.setQuestionAnswerListVOS(questionAnswerListVOS);
+//
+//                allQuestionVO.setQuestionListVOS(questionListVOS);
+//                allQuestionVO.setAllAnswerVOS(allAnswerVOS);
+//                allQuestionVO.setAllAnswered(allAnswered);
+//                allQuestionVO.setIsAnswered(isAnswered);
+//
+//                result.put("result",allQuestionVO);
+////                result.put("answervo",allAnswerVOS);
+//            }
+//            return result;
+//        }
+//    }
+
+
     public boolean isAnswered(IsAnsweredVO isAnsweredVO) throws Exception {
 
-        if (isAnsweredService.isAnsweredUser(isAnsweredVO) == null)
+        if (isAnsweredService.isAnsweredUser(isAnsweredVO) != null)
             return true;
         else
             return false;

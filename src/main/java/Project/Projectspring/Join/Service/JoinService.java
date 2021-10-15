@@ -24,4 +24,9 @@ public class JoinService implements JoinServicein{
         return joinDAO.loginCheck(joinVO);
     }
 
+    @Override
+    public String passwordCheck(JoinVO joinVO) throws Exception {
+        return joinDAO.passwordCheck(joinVO);
+    }
+
 }

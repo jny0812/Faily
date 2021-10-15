@@ -39,7 +39,7 @@ public class MailSendController {
         if (emailCheck(e_mail.get("user_email")) == 1) {
 
             result.put("isSuccess", false);
-            result.put("code", 400);
+            result.put("code", 302);
             result.put("message", "잘못된 이메일 형식입니다.");
 
             return result;
@@ -92,8 +92,8 @@ public class MailSendController {
             e.printStackTrace();
 
             result.put("isSuccess", false);
-            result.put("code", 400);
-            result.put("message", "네트워크 오류");
+            result.put("code", 301);
+            result.put("message", "유효하지 않은 사용자입니다.");
 
             return result;
         }}

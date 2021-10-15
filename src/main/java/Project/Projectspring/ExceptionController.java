@@ -24,10 +24,9 @@ public class ExceptionController {
         String Message;
     }
 
-//        log.error("[오류가 난 위치를 넣을 수는 없을까...]");
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public NotExistDataResultResponse MethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("\n** error occurred!!!!\n[ " + String.valueOf(e));
-        return new NotExistDataResultResponse(400, "잘못된 이메일 형식입니다.");
+        return new NotExistDataResultResponse(302, "잘못된 이메일 형식입니다.");
     }}

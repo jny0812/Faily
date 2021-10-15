@@ -27,4 +27,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         user_pw = #{user_pw}
     </select>
 
+    <select id="passwordCheck" resultType="String">
+        select user_pw
+        from user
+        where user_email = #{user_email} AND
+            user_pw = #{user_pw}
+    </select>
+
 </mapper>

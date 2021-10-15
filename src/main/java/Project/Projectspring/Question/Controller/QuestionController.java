@@ -49,7 +49,7 @@ public class QuestionController {
         if(e_mail == null){
 
             result.put("isSuccess", false);
-            result.put("code",302);
+            result.put("code",301);
             result.put("message","유효하지 않은 사용자입니다.");
         }
         else {
@@ -58,7 +58,7 @@ public class QuestionController {
             Date time = new Date();
             SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar cal = Calendar.getInstance(); cal.setTime(time);
-            cal.add(Calendar.HOUR, 9);
+//            cal.add(Calendar.HOUR, 9);
             String question_time = sdformat.format(cal.getTime());  //'오늘의 질문' 날짜
 
             String question = questionService.bringQuestion(group_id);  //question 불러오기
