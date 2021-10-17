@@ -67,11 +67,6 @@ public class QuestionDAO implements QuestionDAOin{
     }
 
     @Override
-    public String questionTime(int group_id) throws Exception {
-        return sqlSession.selectOne(NAMESPACE+".questionTime",group_id);
-    }
-
-    @Override
     public List<AllQuestionsVO> GroupquestionAnswer(int question_id) throws Exception {
         return sqlSession.selectList(NAMESPACE+".questionTime",question_id);
     }
@@ -82,8 +77,13 @@ public class QuestionDAO implements QuestionDAOin{
     }
 
     @Override
-    public List<Map<String, Object>> selectQuestions(int group_id) throws Exception {
-        return sqlSession.selectList(NAMESPACE+".quesitongroupuser",group_id);
+    public int groupQuestionId(int group_id) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".groupQuestionId",group_id);
+    }
+
+    @Override
+    public void updateGroupQuestionId() throws Exception {
+        sqlSession.update(NAMESPACE + ".updateGroupQuestionId");
     }
 
 

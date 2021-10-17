@@ -62,11 +62,6 @@ public class QuestionService implements QuestionServicein{
     }
 
     @Override
-    public String questionTime(int group_id) throws Exception {
-        return null;
-    }
-
-    @Override
     public List<AllQuestionsVO> GroupquestionAnswer(int question_id) throws Exception {
         return questionDAO.GroupquestionAnswer(question_id);
     }
@@ -77,8 +72,14 @@ public class QuestionService implements QuestionServicein{
     }
 
     @Override
-    public List<Map<String, Object>> selectQuestions(int group_id) throws Exception {
-        return questionDAO.selectQuestions(group_id);
+    public int groupQuestionId(int group_id) throws Exception {
+        return questionDAO.groupQuestionId(group_id);
     }
+
+    @Override
+    public void updateGroupQuestionId() throws Exception {
+        questionDAO.updateGroupQuestionId();
+    }
+
 
 }

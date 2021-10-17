@@ -1,5 +1,7 @@
 package Project.Projectspring.Calender.DAO;
 
+import Project.Projectspring.Calender.VO.AllCalendarVO;
+import Project.Projectspring.Calender.VO.CalendarListVO;
 import Project.Projectspring.Calender.VO.CalenderVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,16 @@ public class CalenderDAO implements CalenderDAOin{
     @Override
     public List<CalenderVO> Calender(int group_id) throws Exception {
         return sqlSession.selectList(NAMESPACE+".Calender", group_id);
+    }
+
+    @Override
+    public void addCalendar(CalenderVO calenderVO) throws Exception {
+        sqlSession.insert(NAMESPACE+".addCalendar", calenderVO);
+    }
+
+    @Override
+    public List<AllCalendarVO> CalendarList(CalendarListVO calendarListVO) throws Exception {
+        return sqlSession.selectList(NAMESPACE+".CalendarList", calendarListVO);
     }
 
 }

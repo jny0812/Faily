@@ -26,12 +26,15 @@ public interface QuestionDAOin {
 
     void ChangeGroupQuestion(int group_id) throws Exception;
 
-    String questionTime(int group_id) throws Exception;
 
     List<AllQuestionsVO> GroupquestionAnswer(int question_id) throws Exception;
 
     List<AllQuestionsVO> UserAnswer(int answer_group_id) throws Exception;
 
-    List<Map<String,Object>> selectQuestions(int group_id) throws Exception;
+    int groupQuestionId(int group_id) throws Exception;
+
+    void updateGroupQuestionId() throws Exception;
+
+
 
 }

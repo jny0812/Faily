@@ -64,12 +64,6 @@
     </update>
 
 
-    <select id="questionTime" resultType="string">
-        select question_time
-        from group_question
-        where group_id = #{group_id};
-    </select>
-
     <select id="UserAnswer" resultType="Project.Projectspring.Question.VO.AllQuestionsVO">
         select u.user_name, a.answer, a.answer_time
         from answer as a
@@ -85,20 +79,6 @@
         where question_id = #{question_id}
     </select>
 
-    <select id="QuestionIdList" resultType="hashmap">
-        select a.answer_group_id, a.answer_question_id
-        from  answer as a
-                  inner join group_question as gq
-                             on gq.quesiton_id = a.answer_question_id and gq.group_id = a.answer_group_id
-        where gq.question_id = #{question_id}
-    </select>
-
-    <select id="selectQuestions" resultMap="selectQuestionId">
-        select gq.question_id, q.question, gq.question_time
-        from group_question as gq
-            inner join question as a on gq.question_id = q.question_id
-        where gq.group_id = #{group_id}
-    </select>
     
     <resultMap id="selectQuestionId" type="hashmap">
         <result column="question_id" property="question_id"/>
@@ -113,4 +93,14 @@
         where a.answer_question_id = #{question_id} and a.answer_user_id = #{user_id}
     </select>
 
+    <select id="groupQuestionId" resultType="int">
+        select group_question_id
+        from `group`
+        where group_id = #{group_id}
+    </select>
+
+    <update id="updateGroupQuestionId">
+        update `group`
+        set group_question_id = group_question_id + 1
+    </update>
 </mapper>

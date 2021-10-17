@@ -12,4 +12,29 @@
         order by calendar_id desc;
     </select>
 
+    <insert id="addCalendar">
+        insert into calendar (
+        calendar_date,
+        calendar_category,
+        calendar_name,
+        calendar_place,
+        calendar_memo,
+        calendar_start_time,
+        calendar_end_time,
+        calendar_user_id,
+        calendar_group_id)
+       values(
+            #{calendar_date}, #{calendar_category},
+            #{calendar_name}, #{calendar_place}, #{calendar_memo},
+            #{calendar_start_time}, #{calendar_end_time}, #{user_id},#{group_id}
+            )
+    </insert>
+
+    <select id="CalendarList" resultType="Project.Projectspring.Calender.VO.AllCalendarVO">
+        select calendar_category, calendar_name, calendar_place, calendar_memo, calendar_start_time, calendar_end_time
+        from calendar
+        where calendar_date = #{calendar_date}
+        group by calendar_group_id = #{group_id}
+    </select>
+
 </mapper>
