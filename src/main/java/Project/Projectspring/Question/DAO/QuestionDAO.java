@@ -86,5 +86,10 @@ public class QuestionDAO implements QuestionDAOin{
         sqlSession.update(NAMESPACE + ".updateGroupQuestionId");
     }
 
+    @Override
+    public int CheckQuestionInfo(GroupQuestionVO groupQuestionVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".CheckQuestionInfo", groupQuestionVO);
+    }
+
 
 }

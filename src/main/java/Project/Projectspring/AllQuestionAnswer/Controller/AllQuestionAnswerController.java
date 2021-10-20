@@ -5,6 +5,7 @@ import Project.Projectspring.AllQuestionAnswer.VO.*;
 import Project.Projectspring.Answer.Service.IsAnsweredService;
 import Project.Projectspring.Answer.VO.AnsweredgroupuserVO;
 import Project.Projectspring.Answer.VO.IsAnsweredVO;
+import Project.Projectspring.Calender.VO.AllCalendarVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Question.Service.QuestionService;
 import lombok.*;
@@ -29,10 +30,11 @@ public class AllQuestionAnswerController {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class QuestionList{
+        String date;
         String question;
-//        String question_time;
         List<AllAnswerVO> answerInfo;
         boolean IsAnswered;
        boolean allAnswered;
@@ -49,7 +51,7 @@ public class AllQuestionAnswerController {
         boolean IsSuccess;
         int code;
         String message;
-        Map<String,Object> result;
+        List<QuestionList> result;
     }
 
     /**전체 질문 불러오기 **/
@@ -74,43 +76,43 @@ public class AllQuestionAnswerController {
         } else {
         responseAnswer response = new responseAnswer(true, 200, "전체 질문을 불러왔습니다.", null);
 
-        Map<String, Object> map = new HashMap<>(); //(질문 불러온 날짜, 그 날짜에 대한  allanswer)
-
-
         List<QuestionListVO> questionListVOS = allQuestionAnswerService.getQuestion(group_id);
+        List<QuestionList> list = new ArrayList<>();
 
         for(int i=0; i<questionListVOS.size(); i++){
+            log.warn("vo : " + questionListVOS.get(i).toString());
             int question_id = questionListVOS.get(i).getQuestion_id(); //question_id 추출
             String question = questionListVOS.get(i).getQuestion();
             String question_time = questionListVOS.get(i).getQuestion_time();
 
-//            log.warn(String.valueOf(question_id));
-//            log.warn(String.valueOf(question));
+            log.warn(String.valueOf(question_id));
+            log.warn(String.valueOf(question));
 
             IsAnsweredVO isAnsweredVO = new IsAnsweredVO(user_id,question_id);
 
             AnsweredgroupuserVO answeredgroupuserVO = new AnsweredgroupuserVO(question_id,group_id);
             int answeredgroupuser = isAnsweredService.answeredgroupuser(answeredgroupuserVO);
 
-            log.warn(String.valueOf(answeredgroupuser));
-            log.warn(String.valueOf(userNumber));
+//            log.warn(String.valueOf(answeredgroupuser));
+//            log.warn(String.valueOf(userNumber));
 
             boolean IsAnswered = isAnswered(isAnsweredVO);
             boolean allAnswered = allanswered(userNumber,answeredgroupuser);
 
-//            List<Boolean> isAnswered = Collections.singletonList(isAnswered(isAnsweredVO));
-//            List<Boolean> allAnswered = Collections.singletonList(allanswered(userNumber, answeredgroupuser));
-
-            QuestionList questionList = new QuestionList(question, null, IsAnswered, allAnswered);
+            QuestionList questionList = new QuestionList();
+            questionList.setQuestion(question);
+            questionList.setAllAnswered(allAnswered);
+            questionList.setIsAnswered(IsAnswered);
+            questionList.setDate(question_time);
 
             AnswerNeedVO answerNeedVO = new AnswerNeedVO(question_id, group_id);
             List<AllAnswerVO> allAnswerVOS =  allQuestionAnswerService.getAnswer(answerNeedVO);
 
             questionList.setAnswerInfo(allAnswerVOS);
-            map.put(question_time, questionList);
+            list.add(questionList);
         }
 
-        response.setResult(map);
+        response.setResult(list);
 
         return response;} }
 

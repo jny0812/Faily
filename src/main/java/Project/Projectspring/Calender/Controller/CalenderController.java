@@ -32,13 +32,13 @@ public class CalenderController {
     private final QuestionService questionService;
     private Object List;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class CalendarList{
-        String calendar_date;
-        List<AllCalendarVO> allCalendarVOS;
-    }
+//    @Getter
+//    @Setter
+//    @AllArgsConstructor
+//    public static class CalendarList{
+//        String calendar_date;
+//        List<AllCalendarVO> allCalendarVOS;
+//    }
 
     @Getter
     @Setter
@@ -47,7 +47,7 @@ public class CalenderController {
         boolean IsSuccess;
         int code;
         String message;
-        Map<String,Object> calendar;
+        List<AllCalendarVO> calendar;
     }
 
     /** 전체 달력 불러오기 **/
@@ -73,7 +73,8 @@ public class CalenderController {
 
             responseAnswer response = new responseAnswer(true, 200, "전체 일정을 불러왔습니다.", null);
 
-            Map<String, Object> map = new HashMap<>();
+//            Map<String, Object> map = new HashMap<>();
+            List<AllCalendarVO> list = new ArrayList<>();
 
             List<CalenderVO> calender = calenderService.Calender(group_id);
 
@@ -86,16 +87,16 @@ public class CalenderController {
                 String calendar_start_time = calender.get(i).getCalendar_start_time();
                 String calendar_end_time = calender.get(i).getCalendar_end_time();
 
-                CalendarList calendarList = new CalendarList(calendar_date,null);
+//                CalendarList calendarList = new CalendarList(calendar_date,null);
 
                 CalendarListVO calendarListVO = new CalendarListVO(group_id,calendar_date);
-                List<AllCalendarVO> allCalendarVOS = calenderService.CalendarList(calendarListVO);
+                list = calenderService.CalendarList(calendarListVO);
 
-                calendarList.setAllCalendarVOS(allCalendarVOS);
-                map.put(calendar_date,calendarList);
+//                map.put("calendar",allCalendarVOS);
+
 
             }
-            response.setCalendar(map);
+            response.setCalendar(list);
             return response;
             }
     }

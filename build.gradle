@@ -13,9 +13,11 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.5.5'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'mysql:mysql-connector-java'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
@@ -29,7 +31,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
 	//implementation 'junit:junit:4.12'
-	implementation 'com.google.firebase:firebase-admin:6.8.1'
+	implementation 'com.google.firebase:firebase-admin:7.1.0'
+	//external broker
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-reactor-netty', version: '2.4.6'
+	//stomp
+	implementation 'org.webjars:stomp-websocket:2.3.3-1'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	testImplementation 'org.springframework.amqp:spring-rabbit-test'
+
+//	implementation "org.springframework.boot:spring-boot-starter-data-redis:2.5.5"
+
+
 
 
 }

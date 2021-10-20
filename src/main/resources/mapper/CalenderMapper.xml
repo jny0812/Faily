@@ -31,7 +31,7 @@
     </insert>
 
     <select id="CalendarList" resultType="Project.Projectspring.Calender.VO.AllCalendarVO">
-        select calendar_category, calendar_name, calendar_place, calendar_memo, calendar_start_time, calendar_end_time
+        select calendar_date, calendar_category, calendar_name, calendar_place, calendar_memo, calendar_start_time, calendar_end_time
         from calendar
         where calendar_date = #{calendar_date}
         group by calendar_group_id = #{group_id}

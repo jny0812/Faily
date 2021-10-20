@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AllCalendarVO {
 
+    private String calendar_date;
     private String calendar_category;
     private String calendar_name;
     private String calendar_place;

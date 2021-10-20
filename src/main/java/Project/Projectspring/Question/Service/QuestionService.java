@@ -81,5 +81,10 @@ public class QuestionService implements QuestionServicein{
         questionDAO.updateGroupQuestionId();
     }
 
+    @Override
+    public int CheckQuestionInfo(GroupQuestionVO groupQuestionVO) throws Exception {
+        return questionDAO.CheckQuestionInfo(groupQuestionVO);
+    }
+
 
 }

@@ -42,6 +42,11 @@
         )
     </insert>
 
+    <select id="CheckQuestionInfo" resultType="int">
+        select exists
+            (select group_id, question_id from group_question
+                         where group_id = #{group_id} and question_id = #{question_id})
+    </select>
     <select id="allQuestion" resultType="Project.Projectspring.Question.VO.AllQuestionsVO">
         select gq.question_id, q.question
         from group_question as gq

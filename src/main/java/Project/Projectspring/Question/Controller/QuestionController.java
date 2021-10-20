@@ -67,14 +67,17 @@ public class QuestionController {
                     SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(time);
-//            cal.add(Calendar.HOUR, 9);
+                    //cal.add(Calendar.HOUR, 9);
                     String question_time = sdformat.format(cal.getTime());  //'오늘의 질문' 날짜
 
                     String question = questionService.bringQuestion(group_id);  //question 불러오기
                     int question_id = questionService.questionId(question);
 
                     GroupQuestionVO groupQuestionVO = new GroupQuestionVO(group_id,question_id,question_time);
-                    questionService.createGroupQuestion(groupQuestionVO);
+
+                    int CheckExist = questionService.CheckQuestionInfo(groupQuestionVO);
+                    if(CheckExist==0) {
+                    questionService.createGroupQuestion(groupQuestionVO);  }  //테이블에 insert
 
                     result.put("isSuccess", true);
                     result.put("code",200);
@@ -102,20 +105,11 @@ public class QuestionController {
         time = f.parse(sdformat.format(time));
         int timecheck = d1.compareTo(time);
         log.warn(String.valueOf(timecheck));
-//
+
         if(  timecheck == 0) {
             questionService.updateGroupQuestionId();
         }
     }
-//        if(questionService.groupQuestionId(group_id)==1){
-//
-//            String question = questionService.bringQuestion(group_id);
-//            HashMap<String, Object> result = new HashMap<>();
-//                    result.put("isSuccess", true);
-//                    result.put("code",200);
-//                    result.put("message","오늘의 질문을 불러왔어요!");
-//                    result.put("todayQuestion", question); }
-//        else{
 
 
     }

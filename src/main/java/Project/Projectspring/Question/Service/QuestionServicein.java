@@ -36,5 +36,7 @@ public interface QuestionServicein {
 
     void updateGroupQuestionId() throws Exception;
 
+    int CheckQuestionInfo(GroupQuestionVO groupQuestionVO) throws Exception;
+
 
 }
