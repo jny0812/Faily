@@ -4,6 +4,7 @@ import Project.Projectspring.Answer.Service.AnswerService;
 import Project.Projectspring.Answer.Service.IsAnsweredService;
 import Project.Projectspring.Answer.VO.AnswerUpdateVO;
 import Project.Projectspring.Answer.VO.AnswerVO;
+import Project.Projectspring.Answer.VO.CheckAnswerVO;
 import Project.Projectspring.Group.VO.UserGroupVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Join.VO.JoinVO;
@@ -50,7 +51,20 @@ public class AnswerController {
 
             return result;}
 
-           else if (isAnsweredService.checkUserStatus(e_mail) == 1) {
+        else {
+            Date time = new Date();
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar cal = Calendar.getInstance(); cal.setTime(time);
+//            cal.add(Calendar.HOUR, 9);
+            String answer_time = sdformat.format(cal.getTime());  //답변 날짜
+
+            int group_question_id = answerService.bringGroupQuestionId(group_id);  //group_question_id 불러오기
+            int question_index = answerVO.getQuestion_index();
+            log.warn(String.valueOf(question_index));
+
+            CheckAnswerVO checkAnswerVO = new CheckAnswerVO(question_index,user_id);
+
+           if (answerService.checkAnswer(checkAnswerVO) == 1) {
 
             result.put("isSuccess",false);
             result.put("code",302);
@@ -59,18 +73,8 @@ public class AnswerController {
             return result;
            }
 
-        else {
-            Date time = new Date();
-            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar cal = Calendar.getInstance(); cal.setTime(time);
-            cal.add(Calendar.HOUR, 9);
-            String answer_time = sdformat.format(cal.getTime());  //답변 날짜
-
-            int group_question_id = answerService.bringGroupQuestionId(group_id);  //group_question_id 불러오기
-
             answerVO.setAnswer_time(answer_time);
             answerVO.setUser_id(user_id);
-            answerVO.setAnswer_question_id(group_question_id);
             answerVO.setGroup_id(group_id);
 
             answerService.createAnswer(answerVO); //answer 생성

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -37,10 +38,9 @@ public class AllQuestionAnswerController {
         String question;
         List<AllAnswerVO> answerInfo;
         boolean IsAnswered;
-       boolean allAnswered;
+        boolean allAnswered;
+        int question_index;
 
-        public QuestionList(int question_id, String question, Object allAnswers, boolean isAnswered, boolean allAsnwered) {
-        }
     }
 
 
@@ -83,7 +83,8 @@ public class AllQuestionAnswerController {
             log.warn("vo : " + questionListVOS.get(i).toString());
             int question_id = questionListVOS.get(i).getQuestion_id(); //question_id 추출
             String question = questionListVOS.get(i).getQuestion();
-            String question_time = questionListVOS.get(i).getQuestion_time();
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy년 MM월 dd일");
+            String question_time = sdformat.format(questionListVOS.get(i).getQuestion_time());
 
             log.warn(String.valueOf(question_id));
             log.warn(String.valueOf(question));
@@ -104,6 +105,7 @@ public class AllQuestionAnswerController {
             questionList.setAllAnswered(allAnswered);
             questionList.setIsAnswered(IsAnswered);
             questionList.setDate(question_time);
+            questionList.setQuestion_index(question_id);
 
             AnswerNeedVO answerNeedVO = new AnswerNeedVO(question_id, group_id);
             List<AllAnswerVO> allAnswerVOS =  allQuestionAnswerService.getAnswer(answerNeedVO);

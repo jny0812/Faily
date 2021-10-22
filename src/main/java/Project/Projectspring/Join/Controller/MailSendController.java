@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.registry.RegistryImpl_Skel;
 
 import javax.mail.SendFailedException;
 import javax.mail.internet.MimeMessage;
@@ -17,7 +16,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.regex.Matcher;
 
 @Slf4j
 @RestController
@@ -29,7 +27,7 @@ public class MailSendController {
     private final JavaMailSender mailSender;
 
 
-    //이메일보내기
+    /** 이메일 보내기 **/
     @RequestMapping(value = "/SendEmail", method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String, Object> mailSending(@Valid @RequestBody HashMap<String, String > e_mail) {

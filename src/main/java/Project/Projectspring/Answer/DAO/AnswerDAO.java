@@ -2,6 +2,8 @@ package Project.Projectspring.Answer.DAO;
 
 import Project.Projectspring.Answer.VO.AnswerUpdateVO;
 import Project.Projectspring.Answer.VO.AnswerVO;
+import Project.Projectspring.Answer.VO.CheckAnswerVO;
+import com.rabbitmq.client.AMQP;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,5 +36,10 @@ public class AnswerDAO implements AnswerDAOin{
     @Override
     public int bringGroupQuestionId(int group_id) throws Exception {
         return sqlSession.selectOne(NAMESPACE+".bringGroupQuestionId",group_id);
+    }
+
+    @Override
+    public int checkAnswer(CheckAnswerVO checkAnswerVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".checkAnswer",checkAnswerVO);
     }
 }

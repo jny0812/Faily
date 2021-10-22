@@ -3,6 +3,7 @@ package Project.Projectspring.Join.Service;
 
 import Project.Projectspring.Join.DAO.JoinDAO;
 import Project.Projectspring.Join.VO.JoinVO;
+import Project.Projectspring.Join.VO.JwtTokenVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,11 @@ public class JoinService implements JoinServicein{
     @Override
     public String passwordCheck(JoinVO joinVO) throws Exception {
         return joinDAO.passwordCheck(joinVO);
+    }
+
+    @Override
+    public void updateJwtToken(JwtTokenVO jwtTokenVO) throws Exception {
+        joinDAO.updateJwtToken(jwtTokenVO);
     }
 
 }

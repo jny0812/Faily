@@ -95,7 +95,7 @@ public class QuestionController {
             }
     }
 
-    @Scheduled(cron = "30 * * * * *",zone = "Asia/Seoul")
+    @Scheduled(cron = "0 * * * * *",zone = "Asia/Seoul")
     public void Scheduling() throws Exception {
 
         Date time = new Date();

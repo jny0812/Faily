@@ -15,7 +15,7 @@
         #{answer},
         #{answer_time},
         #{user_id},
-        #{answer_question_id},
+        #{question_index},
         #{group_id}
         )
     </insert>
@@ -88,4 +88,10 @@
         where answer_group_id = #{group_id} and answer_question_id = #{question_id}
     </select>
 
+    <select id="checkAnswer" resultType="int">
+        select exists
+                   (select answer_question_id, answer_user_id
+                    from answer
+                    where answer_question_id = #{question_index} and answer_user_id = #{user_id})
+    </select>
 </mapper>

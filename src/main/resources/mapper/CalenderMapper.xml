@@ -9,7 +9,7 @@
         select calendar_date, calendar_category, calendar_name, calendar_place, calendar_memo, calendar_start_time, calendar_end_time
         from calendar
         where calendar_group_id = #{group_id}
-        order by calendar_id desc;
+        order by calendar_date asc;
     </select>
 
     <insert id="addCalendar">

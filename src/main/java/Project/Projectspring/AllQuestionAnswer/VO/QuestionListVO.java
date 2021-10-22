@@ -1,11 +1,8 @@
 package Project.Projectspring.AllQuestionAnswer.VO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionListVO {
 
-    private String question_time;
+    private Date question_time;
     private String question;
     private int question_id;
 //    private List<AllAnswerVO> allAnswerVOS;

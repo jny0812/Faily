@@ -1,7 +1,9 @@
 package Project.Projectspring;
 
 import Project.Projectspring.Join.Controller.JoinController;
+import Project.Projectspring.Join.Service.JoinService;
 import Project.Projectspring.Join.VO.JoinVO;
+import Project.Projectspring.Join.VO.JwtTokenVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ public class JwtController {
 
     private final JoinController joinController;
     private final HttpServletRequest request;
+    private final JoinService joinService;
 
     /** 새로운 토큰 생성 **/
     @RequestMapping(value = "/JwtToken",method = RequestMethod.GET)
@@ -29,6 +32,9 @@ public class JwtController {
         HashMap<String, Object> result = new HashMap<>();
 
         try{
+
+            JwtTokenVO jwtTokenVO = new JwtTokenVO(token,e_mail);
+            joinService.updateJwtToken(jwtTokenVO);
 
             result.put("isSuccess", true);
             result.put("code", 200);

@@ -3,6 +3,7 @@ package Project.Projectspring.Answer.Service;
 import Project.Projectspring.Answer.DAO.AnswerDAO;
 import Project.Projectspring.Answer.VO.AnswerUpdateVO;
 import Project.Projectspring.Answer.VO.AnswerVO;
+import Project.Projectspring.Answer.VO.CheckAnswerVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,10 @@ public class AnswerService implements AnswerServicein{
     @Override
     public int bringGroupQuestionId(int group_id) throws Exception {
         return answerDAO.bringGroupQuestionId(group_id);
+    }
+
+    @Override
+    public int checkAnswer(CheckAnswerVO checkAnswerVO) throws Exception {
+        return answerDAO.checkAnswer(checkAnswerVO);
     }
 }

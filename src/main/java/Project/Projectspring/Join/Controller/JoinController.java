@@ -4,6 +4,7 @@ package Project.Projectspring.Join.Controller;
 import Project.Projectspring.Group.Service.GroupService;
 import Project.Projectspring.Join.Service.JoinService;
 import Project.Projectspring.Join.VO.JoinVO;
+import Project.Projectspring.Join.VO.JwtTokenVO;
 import Project.Projectspring.Question.Service.QuestionService;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.messaging.handler.annotation.Headers;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,6 +55,11 @@ public class JoinController {
         try {
             joinService.create(joinVO);
 
+            String e_mail = joinVO.getUser_email();
+
+            JwtTokenVO jwtTokenVO = new JwtTokenVO(token,e_mail);
+            joinService.updateJwtToken(jwtTokenVO);
+
             result.put("isSuccess", true);
             result.put("code",200);
             result.put("message","회원가입 성공!");
@@ -94,6 +100,9 @@ public class JoinController {
 
         /** group에 속해있는 경우 **/
          else if(groupService.isExisted(e_mail) != null) {
+
+            JwtTokenVO jwtTokenVO = new JwtTokenVO(token,e_mail);
+            joinService.updateJwtToken(jwtTokenVO);
 
             int user_id = questionService.userIdCheck(joinVO.getUser_email());
             int group_id = questionService.questionUserGroupId(user_id);

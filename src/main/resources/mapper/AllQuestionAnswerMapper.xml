@@ -6,7 +6,7 @@
 <mapper namespace="Project.Projectspring.AllQuestionAnswer.AllQuestionAnswerMapper">
 
     <select id="getAnswer" resultType="Project.Projectspring.AllQuestionAnswer.VO.AllAnswerVO">
-        select u.user_name, a.answer, a.answer_time
+        select u.user_name, a.answer, STR_TO_DATE(a.answer_time,'%Y-%m-%d')
         from answer as a
         inner join user as u on u.user_id = a.answer_user_id
         where answer_question_id = #{question_id} and answer_group_id = #{group_id}
@@ -14,10 +14,10 @@
     </select>
 
     <select id="getQuestion" resultType="Project.Projectspring.AllQuestionAnswer.VO.QuestionListVO">
-        select gq.question_time, q.question, gq.question_id
+        select STR_TO_DATE(gq.question_time,'%Y-%m-%d'), q.question, gq.question_id
         from group_question as gq
         inner join question as q on q.question_id = gq.question_id
         where gq.group_id = #{group_id}
-        order by gq.question_id asc;
+        order by gq.question_time asc;
     </select>
 </mapper>

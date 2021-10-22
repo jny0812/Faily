@@ -34,4 +34,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             user_pw = #{user_pw}
     </select>
 
+    <update id="updateJwtToken">
+        update user
+        set jwt_token = #{token}
+        where user_email = #{e_mail}
+    </update>
+
+
+
 </mapper>

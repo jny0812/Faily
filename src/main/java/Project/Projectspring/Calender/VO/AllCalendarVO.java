@@ -2,6 +2,8 @@ package Project.Projectspring.Calender.VO;
 
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @ToString
