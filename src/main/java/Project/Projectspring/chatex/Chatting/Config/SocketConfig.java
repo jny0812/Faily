@@ -14,6 +14,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,16 +23,16 @@ import org.springframework.context.annotation.Configuration;
 public class SocketConfig {
     private final String QUEUE_NAME = "chat";
     private final String CHAT_EXCHANGE_NAME = "chat-exchange";
-    private final String ROUTING_KEY = "group_code.*";
+    private final String ROUTING_KEY = "messages.*";
 
     @Bean
     Queue queue() {
-        return new Queue(QUEUE_NAME, true);
+        return new Queue(QUEUE_NAME, true, false, false);
     }
 
     //topic exchange : chat-exchange
     @Bean
-    TopicExchange exchange() {
+    TopicExchange topicExchange() {
         return new TopicExchange(CHAT_EXCHANGE_NAME);
     }
 
@@ -40,16 +41,17 @@ public class SocketConfig {
     Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
     }
+//
+//    @Bean
+//    Binding binding2(Queue queue, TopicExchange exchange) {
+//        return BindingBuilder.bind(queue).to(exchange).with("/topic/messages");
+//    }
 
     @Bean
-    Binding binding2(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("/topic/messages");
-    }
-
-    @Bean
-    RabbitTemplate rabbitTemplate() {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setMessageConverter(jsonMessageConverter());
+    RabbitTemplate rabbitTemplate(ConnectionFactory factory, MessageConverter messageConverter) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate();
+        rabbitTemplate.setConnectionFactory(factory);
+        rabbitTemplate.setMessageConverter(messageConverter);
 //        rabbitTemplate.setRoutingKey(QUEUE_NAME);
 
         return rabbitTemplate;
@@ -59,24 +61,17 @@ public class SocketConfig {
     @Bean
     ConnectionFactory connectionFactory() {
         CachingConnectionFactory factory = new CachingConnectionFactory();
-        factory.setHost("localhost");
         factory.setUsername("guest");
         factory.setPassword("guest");
+        factory.setVirtualHost("/");
+        factory.setHost("localhost");
+        factory.setPort(5672);
         return factory;
     }
 
     @Bean
-    Jackson2JsonMessageConverter jsonMessageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-        objectMapper.registerModule(dateTimeModule());
-
-        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter(objectMapper);
-        return converter;
+    MessageConverter messageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
-    @Bean
-    Module dateTimeModule() {
-        return new JavaTimeModule();
-    }
 }

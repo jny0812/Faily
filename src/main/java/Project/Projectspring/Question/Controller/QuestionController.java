@@ -29,14 +29,6 @@ public class QuestionController {
     private final JoinController joinController;
 
 
-//    public static void main(String[] args) {
-//        Calendar today = Calendar.getInstance();
-//        today.add(Calendar.HOUR, 9);
-//        int date = today.get(Calendar.DATE);
-//        int question_number = date % 10;
-//        System.out.println("question_number = " + question_number);
-//    }
-
     //오늘의 질문 불러오기
     @RequestMapping(value = "/todayQuestion", method = RequestMethod.GET)
     @ResponseBody
@@ -44,7 +36,6 @@ public class QuestionController {
 
         HashMap<String, Object> result = new HashMap<>();
             try{
-
                 String a = joinController.remakeJwtToken();
                 String e_mail = joinController.getSubject(); //이메일 추출
                 int user_id = questionService.userIdCheck(e_mail);
@@ -71,6 +62,7 @@ public class QuestionController {
                     String question_time = sdformat.format(cal.getTime());  //'오늘의 질문' 날짜
 
                     String question = questionService.bringQuestion(group_id);  //question 불러오기
+                    log.warn(question);
                     int question_id = questionService.questionId(question);
 
                     GroupQuestionVO groupQuestionVO = new GroupQuestionVO(group_id,question_id,question_time);
@@ -87,6 +79,7 @@ public class QuestionController {
                } return result;
 
             } catch (Exception e) {
+                log.warn(String.valueOf(e));
                 result.put("isSuccess", false);
                 result.put("code", 301);
                 result.put("message", "유효하지 않은 사용자입니다.");

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Project.Projectspring.chatex.Push.PushMapper">
+
+    <select id="findUserId" resultType="int">
+        select user_id
+        from user
+        where user_name = #{user_name}
+    </select>
+
+    <select id="Receivers" resultType="Project.Projectspring.chatex.Push.VO.ReceiverListVO">
+        select u.user_id
+        from user as u
+        inner join `group` as g on g.group_id = u.user_group_id
+        where g.group_code = #{group_code}
+    </select>
+
+    <select id = "findIdbyName" resultType="int">
+        select user_id
+        from user
+        where user_name = #{sender_name}
+    </select>
+
+    <insert id="putChatting">
+        insert into chatting (
+            group_code,
+            sender_name,
+            sender_id,
+            chatting_time,
+            content,
+            receiver_id
+        )
+        values (
+            #{group_code}, #{sender_name}, #{sender_id},
+            #{chatting_time}, #{content}, #{receiver_id} )
+    </insert>
+</mapper>
