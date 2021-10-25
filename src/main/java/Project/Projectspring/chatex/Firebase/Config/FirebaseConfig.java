@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 @Configuration
@@ -21,12 +22,13 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void init() throws IOException {
-        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\user\\Desktop\\Project-spring\\src\\main\\resources\\fb-faily-firebase-adminsdk-sxu9i-97ad8f9dc0.json");
 
-        FirebaseOptions
-                options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+        InputStream in = getClass().getResourceAsStream("/fb-faily-firebase-adminsdk-sxu9i-97ad8f9dc0.json");
+
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(in))
                 .build();
+
         firebaseApp = FirebaseApp.initializeApp(options);
         log.info("Firebase application has been initialized");
 

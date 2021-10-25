@@ -1,9 +1,11 @@
 package Project.Projectspring.chatex.Redis.Controller;
 
 import Project.Projectspring.chatex.Redis.Service.RedisService;
+import Project.Projectspring.chatex.Redis.VO.RedisVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,8 +16,13 @@ public class RedisController {
     private RedisService redisService;
 
     @PostMapping(value = "/getRedisStringValue")
-    public void getRedisStringValue(String key) {
-        redisService.getRedisStringValue(key);
+    public void getRedisStringValue(@RequestBody String user_name ) {
+        redisService.getRedisStringValue(user_name);
+    }
+
+    @PostMapping(value = "/setRedisStringValue")
+    public void setRedisStringValue(@RequestBody RedisVO redisVO) {
+        redisService.setRedisStringValue(redisVO.getUser_name(), redisVO.getFcm_token());
     }
 
 }

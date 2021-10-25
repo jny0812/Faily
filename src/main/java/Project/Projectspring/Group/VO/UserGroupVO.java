@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 public class UserGroupVO {
 
-    @NonNull
     int group_id;
     String group_code;
     String user_email;

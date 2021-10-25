@@ -30,7 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
 	//implementation 'junit:junit:4.12'
-	implementation 'com.google.firebase:firebase-admin:7.1.0'
+	implementation 'com.google.firebase:firebase-admin:8.1.0'
 	//external broker
 	implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
 //	implementation 'io.projectreactor.netty:reactor-netty:1.0.11'
