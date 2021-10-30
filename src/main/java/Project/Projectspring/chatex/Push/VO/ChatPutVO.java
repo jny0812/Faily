@@ -1,17 +1,13 @@
 package Project.Projectspring.chatex.Push.VO;
 
-
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatVO {
+public class ChatPutVO {
 
     private String content;
     private int sender_id;
@@ -19,5 +15,10 @@ public class ChatVO {
     private String group_code;
     private int receiver_id;
     private String chatting_time;
-    private byte [] file;
+//    private String path;
+    private byte[] file;
+    private boolean emoji_bool;
+    private boolean photo_bool;
+    private boolean text_bool;
+    private boolean calendar_bool;
 }

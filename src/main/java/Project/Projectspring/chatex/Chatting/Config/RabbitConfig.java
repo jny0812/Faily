@@ -14,6 +14,7 @@ public class RabbitConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/gs-guide-websocket")
+//                .setAllowedOrigins("http://3.34.242.198:8080")
                 .setAllowedOrigins("http://localhost:8080")
                 .withSockJS();
     }

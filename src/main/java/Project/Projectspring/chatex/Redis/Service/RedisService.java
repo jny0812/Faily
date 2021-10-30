@@ -16,10 +16,11 @@ public class RedisService {
     private StringRedisTemplate stringRedisTemplate;
 
 
-    public void getRedisStringValue(String key) {
+    public String getRedisStringValue(int user_id) {
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
-        System.out.println("Redis key : " + key);
-        System.out.println("Redis value : " + stringValueOperations.get(key));
+        System.out.println("Redis key : " + user_id);
+        System.out.println("Redis value : " + stringValueOperations.get(user_id));
+        return stringValueOperations.get(user_id);
     }
 
     public void setRedisStringValue(String key, String value) {

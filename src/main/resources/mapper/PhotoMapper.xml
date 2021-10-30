@@ -5,14 +5,35 @@
 
 <mapper namespace="Project.Projectspring.Photo.PhotoMapper">
 
-    <insert id="createPhotoCategory">
-        INSERT INTO photo_category (
-                           photo_category_name
-                         , user_id
-
-        ) VALUES (
-                     #{photo_category_name}
-                 , #{user_id}
-                 )
+    <insert id="createPhoto">
+        insert into photo (
+            photo, photo_sender_id, photo_sender_name, photo_group_id, group_code, photo_time
+        )
+        values (
+            #{chatting_file} ,#{sender_id}, #{sender_name}, #{group_id}, #{group_code}, #{chatting_time}
+               )
     </insert>
+
+    <select id="Photos" resultType="Project.Projectspring.Photo.VO.FindPhotosVO">
+        select photo, photo_sender_name as sender_name, photo_time as time
+        from photo
+        where group_code = #{group_code}
+        order by photo_time desc
+    </select>
+
+    <insert id="createPhotoCategory">
+        insert into photo_category (
+            photo_category_name, photo_category_user_id,
+                                    photo_category_group_id
+        )
+        values (
+            #{photo_category}, #{user_id}, #{group_id}
+               )
+    </insert>
+
+    <select id="checkPhotoCategory" resultType="String">
+        select photo_category_name
+        from photo_category
+        where photo_category_name = #{photo_category} and photo_category_user_id = #{user_id}
+    </select>
 </mapper>

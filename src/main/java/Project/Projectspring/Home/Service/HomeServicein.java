@@ -1,0 +1,27 @@
+package Project.Projectspring.Home.Service;
+
+import Project.Projectspring.Home.Controller.HomeApiController;
+import Project.Projectspring.Home.VO.*;
+
+import java.util.List;
+
+public interface HomeServicein {
+
+    List<GetByGroupIdVO> getByGroupId(HomeApiController.FindNeedVO findNeedVO) throws Exception;
+
+    String getUserMood(int user_id) throws Exception;
+
+    List<FamilyListNeedVO> getFamilyList(int group_id) throws Exception;
+
+    String getUserName(int user_id) throws Exception;
+
+    List<TodayAnniversaryVO> getCalendar(HomeApiController.FindNeedVO findNeedVO) throws Exception;
+
+    List<ImagePathVO> getUserImagePath(int user_id) throws Exception;
+
+    void putImagePath(HomeApiController.putImageVO putImageVO) throws Exception;
+
+    String CheckCalendar(String calendar_date) throws Exception;
+
+    float GroupBonding(int group_id) throws Exception;
+}

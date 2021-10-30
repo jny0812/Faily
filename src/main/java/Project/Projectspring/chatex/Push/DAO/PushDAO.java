@@ -1,5 +1,6 @@
 package Project.Projectspring.chatex.Push.DAO;
 
+import Project.Projectspring.chatex.Push.VO.ChatPutVO;
 import Project.Projectspring.chatex.Push.VO.ChatVO;
 import Project.Projectspring.chatex.Push.VO.ReceiverListVO;
 import org.apache.ibatis.session.SqlSession;
@@ -29,12 +30,8 @@ public class PushDAO implements PushDAOin {
     }
 
     @Override
-    public void putChatting(ChatVO chatVO) throws Exception {
-        sqlSession.insert(NAMESPACE+".putChatting", chatVO);
+    public void putChatting(ChatPutVO chatPutVO) throws Exception {
+        sqlSession.insert(NAMESPACE+".putChatting", chatPutVO);
     }
 
-    @Override
-    public int findIdbyName(String sender_name) throws Exception {
-        return sqlSession.selectOne(NAMESPACE+".findIdbyName",sender_name);
-    }
 }

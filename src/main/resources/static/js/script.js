@@ -18,8 +18,6 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        // stompClient.subscribe('/topic/messages', function (message) {
-        // stompClient.subscribe('/topic/messages.nruU', function (message) {
         stompClient.subscribe('/topic/messages.7tmq', function (message) {
             showMessage(decodeURI(JSON.parse(message.body).content));
         });

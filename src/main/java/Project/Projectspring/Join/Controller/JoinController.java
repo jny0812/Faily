@@ -162,7 +162,7 @@ public class JoinController {
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
                 .setIssuer("fresh") // (2)
                 .setIssuedAt(now) // (3)
-                .setExpiration(new Date(now.getTime() + Duration.ofMinutes(30).toMillis())) // (4)
+                .setExpiration(new Date(now.getTime() + Duration.ofMinutes(60).toMillis())) // (4)
                 .claim("email", email) // (5)
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY) // (6)
                 .compact();

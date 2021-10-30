@@ -16,8 +16,8 @@ public class RedisController {
     private RedisService redisService;
 
     @PostMapping(value = "/getRedisStringValue")
-    public void getRedisStringValue(@RequestBody String user_name ) {
-        redisService.getRedisStringValue(user_name);
+    public void getRedisStringValue(@RequestBody int user_id ) {
+        redisService.getRedisStringValue(user_id);
     }
 
     @PostMapping(value = "/setRedisStringValue")

@@ -1,9 +1,6 @@
 package Project.Projectspring.AllQuestionAnswer.DAO;
 
-import Project.Projectspring.AllQuestionAnswer.VO.AllAnswerVO;
-import Project.Projectspring.AllQuestionAnswer.VO.AllQuestionVO;
-import Project.Projectspring.AllQuestionAnswer.VO.AnswerNeedVO;
-import Project.Projectspring.AllQuestionAnswer.VO.QuestionListVO;
+import Project.Projectspring.AllQuestionAnswer.VO.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,7 +20,7 @@ public class AllQuestionAnswerDAO implements AllQuestionAnswerDAOin{
 
 
     @Override
-    public List<AllAnswerVO> getAnswer(AnswerNeedVO answerNeedVO) throws Exception {
+    public List<AllAnswerImageVO> getAnswer(AnswerNeedVO answerNeedVO) throws Exception {
         return sqlSession.selectList(NAMESPACE+".getAnswer", answerNeedVO);
     }
 

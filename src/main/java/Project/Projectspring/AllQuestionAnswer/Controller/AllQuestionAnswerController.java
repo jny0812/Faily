@@ -6,8 +6,12 @@ import Project.Projectspring.Answer.Service.IsAnsweredService;
 import Project.Projectspring.Answer.VO.AnsweredgroupuserVO;
 import Project.Projectspring.Answer.VO.IsAnsweredVO;
 import Project.Projectspring.Calender.VO.AllCalendarVO;
+import Project.Projectspring.FileByte;
+import Project.Projectspring.Home.VO.FamilyListNeedVO;
+import Project.Projectspring.Home.VO.FamilyListVO;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Question.Service.QuestionService;
+import javassist.bytecode.stackmap.BasicBlock;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +31,7 @@ public class AllQuestionAnswerController {
     private final JoinController joinController;
     private final IsAnsweredService isAnsweredService;
     private final AllQuestionAnswerService allQuestionAnswerService;
+    private final FileByte fileByte;
 
 
     @Getter
@@ -64,7 +69,8 @@ public class AllQuestionAnswerController {
         int group_id = questionService.questionUserGroupId(user_id);  //질문한 user의 group_id 추출
         int userNumber = isAnsweredService.userNumber(group_id);   //가족 멤버 수
 
-        if(a==null) {
+        try {
+        if(e_mail==null) {
             HashMap<String, Object> result = new HashMap<>();
 
             result.put("isSuccess", false);
@@ -108,7 +114,17 @@ public class AllQuestionAnswerController {
             questionList.setQuestion_index(question_id);
 
             AnswerNeedVO answerNeedVO = new AnswerNeedVO(question_id, group_id);
-            List<AllAnswerVO> allAnswerVOS =  allQuestionAnswerService.getAnswer(answerNeedVO);
+            List<AllAnswerImageVO> allAnswerImageVOS =  allQuestionAnswerService.getAnswer(answerNeedVO);
+            List<AllAnswerVO> allAnswerVOS = new ArrayList<>();
+
+            for (int j=0;j<allAnswerImageVOS.size();j++) {
+                AllAnswerVO allAnswerVO = new AllAnswerVO(allAnswerImageVOS.get(j).getUser_name(),
+                        allAnswerImageVOS.get(j).getAnswer(),allAnswerImageVOS.get(j).getAnswer_date(),
+                        allAnswerImageVOS.get(j).getUser_image());
+//                        fileByte.transferUserFile(allAnswerImageVOS.get(j).getUser_image()));
+
+                allAnswerVOS.add(allAnswerVO);
+            }
 
             questionList.setAnswerInfo(allAnswerVOS);
             list.add(questionList);
@@ -116,9 +132,19 @@ public class AllQuestionAnswerController {
 
         response.setResult(list);
 
-        return response;} }
+        return response;}  }
+    catch (Exception e)  {
+        e.printStackTrace();
+        HashMap<String, Object> result = new HashMap<>();
 
+        result.put("isSuccess", false);
+        result.put("code",301);
+        result.put("message","유효하지 않은 사용자입니다.");
 
+        return result;
+    }
+
+    }
 
     public boolean isAnswered(IsAnsweredVO isAnsweredVO) throws Exception {
 
@@ -132,5 +158,4 @@ public class AllQuestionAnswerController {
         if(userNumber == answeredgroupuser) {
             return true;
         } else { return false;} }
-
 }

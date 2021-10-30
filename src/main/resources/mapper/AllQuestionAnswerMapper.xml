@@ -5,8 +5,8 @@
 
 <mapper namespace="Project.Projectspring.AllQuestionAnswer.AllQuestionAnswerMapper">
 
-    <select id="getAnswer" resultType="Project.Projectspring.AllQuestionAnswer.VO.AllAnswerVO">
-        select u.user_name, a.answer, STR_TO_DATE(a.answer_time,'%Y-%m-%d')
+    <select id="getAnswer" resultType="Project.Projectspring.AllQuestionAnswer.VO.AllAnswerImageVO">
+        select u.user_name, a.answer, STR_TO_DATE(a.answer_time,'%Y-%m-%d') as answer_date, u.user_image
         from answer as a
         inner join user as u on u.user_id = a.answer_user_id
         where answer_question_id = #{question_id} and answer_group_id = #{group_id}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Project.Projectspring.chatex.Chatting.ChattingMapper">
+
+    <select id="getGroupCode" resultType="String">
+        select g.group_code
+        from `group` as g
+        inner join user as u on u.user_group_id = g.group_id
+        where u.user_id = #{user_id}
+    </select>
+
+    <select id="ChatList" resultType="Project.Projectspring.chatex.Chatting.VO.ChattingListVO">
+        select group_code, content, chatting_file, sender_id, chatting_time
+        from chatting
+        where group_code = #{group_code} and receiver_id = sender_id
+        order by chatting_time asc;
+    </select>
+
+    <update id="updateIsRead">
+        update chatting
+        set is_read = 1
+        where receiver_id = #{user_id}
+    </update>
+    
+    <select id="numberOfUnread" resultType="int">
+        select count(*)
+        from chatting
+        where is_read = 0 and group_code = #{group_code} and content= #{content}
+                and chatting_file = #{chatting_file} and sender_id = #{sender_id}
+    </select>
+
+    <select id="getUserName" resultType="String">
+        select user_name
+        from user
+        where user_id = #{user_id}
+    </select>
+
+</mapper>

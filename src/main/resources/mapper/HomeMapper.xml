@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Project.Projectspring.Home.HomeMapper">
+
+    <select id="CheckCalendar" resultType="String">
+        select calendar_date
+        from calendar
+        where calendar_date = #{calendar_date}
+    </select>
+
+    <select id="GroupBonding" resultType="float">
+        select group_bonding
+        from `group`
+        where group_id = #{group_id}
+    </select>
+
+    <select id="getByGroupId" resultType="Project.Projectspring.Home.VO.GetByGroupIdVO">
+        select g.group_bonding, c.calendar_date
+        from `group` as g
+                 inner join calendar as c on c.calendar_group_id = g.group_id
+        where g.group_id = #{group_id} and c.calendar_date = #{calendar_date}
+    </select>
+
+    <select id="getCalendar" resultType="Project.Projectspring.Home.VO.TodayAnniversaryVO">
+        select c.calendar_name
+        from `group` as g
+                 inner join calendar as c on c.calendar_group_id = g.group_id
+        where g.group_id = #{group_id} and c.calendar_date = #{calendar_date}
+    </select>
+
+    <select id="getUserMood" resultType="String">
+        select user_mood
+        from user
+        where user_id = #{user_id}
+    </select>
+
+    <select id="getFamilyList" resultType="Project.Projectspring.Home.VO.FamilyListNeedVO">
+        select user_name, user_bonding, user_image, user_mood
+        from user
+        where user_group_id = #{group_id}
+    </select>
+
+    <select id="getUserName" resultType="String">
+        select user_name
+        from user
+        where user_id = #{user_id}
+    </select>
+
+    <select id="getUserImagePath" resultType="Project.Projectspring.Home.VO.ImagePathVO">
+        select user_image
+        from user
+        where user_id = #{user_id}
+    </select>
+
+    <update id="putImagePath">
+        update user
+        set user_image = #{path}
+        where user_id = #{user_id}
+    </update>
+
+</mapper>

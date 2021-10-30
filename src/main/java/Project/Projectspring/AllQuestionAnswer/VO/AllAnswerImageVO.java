@@ -1,20 +1,16 @@
 package Project.Projectspring.AllQuestionAnswer.VO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
-public class AllAnswerVO {
-
+@NoArgsConstructor
+public class AllAnswerImageVO {
 
     private String user_name;
     private String answer;
     private String answer_date;
-//    private byte [] user_image;
     private String user_image;
 }

@@ -1,10 +1,7 @@
 package Project.Projectspring.AllQuestionAnswer.Service;
 
 import Project.Projectspring.AllQuestionAnswer.DAO.AllQuestionAnswerDAO;
-import Project.Projectspring.AllQuestionAnswer.VO.AllAnswerVO;
-import Project.Projectspring.AllQuestionAnswer.VO.AllQuestionVO;
-import Project.Projectspring.AllQuestionAnswer.VO.AnswerNeedVO;
-import Project.Projectspring.AllQuestionAnswer.VO.QuestionListVO;
+import Project.Projectspring.AllQuestionAnswer.VO.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +14,7 @@ public class AllQuestionAnswerService implements AllQuestionAnswerServicein{
     private final AllQuestionAnswerDAO allQuestionAnswerDAO;
 
     @Override
-    public List<AllAnswerVO> getAnswer(AnswerNeedVO answerNeedVO) throws Exception {
+    public List<AllAnswerImageVO> getAnswer(AnswerNeedVO answerNeedVO) throws Exception {
         return allQuestionAnswerDAO.getAnswer(answerNeedVO);
     }
 
