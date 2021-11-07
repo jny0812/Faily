@@ -94,4 +94,10 @@
                     from answer
                     where answer_question_id = #{question_index} and answer_user_id = #{user_id})
     </select>
+
+    <update id="updateUserBonding">
+        update user
+        set user_bonding= user_bonding +0.38
+        where user_id = #{user_id}
+    </update>
 </mapper>

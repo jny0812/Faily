@@ -1,5 +1,6 @@
 package Project.Projectspring.chatex.Chatting.DAO;
 
+import Project.Projectspring.chatex.Chatting.Controller.ChatController;
 import Project.Projectspring.chatex.Chatting.VO.ChattingListVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class ChatDAO implements ChatDAOin{
     }
 
     @Override
-    public int numberOfUnread(ChattingListVO chattingListVO) throws Exception {
-        return sqlSession.selectOne(NAMESPACE+".numberOfUnread", chattingListVO);
+    public int numberOfUnread(ChatController.UnreadListVO unreadListVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".numberOfUnread", unreadListVO);
     }
 
     @Override

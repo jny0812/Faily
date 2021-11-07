@@ -1,5 +1,6 @@
 package Project.Projectspring.chatex.Chatting.Service;
 
+import Project.Projectspring.chatex.Chatting.Controller.ChatController;
 import Project.Projectspring.chatex.Chatting.DAO.ChatDAO;
 import Project.Projectspring.chatex.Chatting.VO.ChattingListVO;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,8 @@ public class ChatService implements ChatServicein{
     }
 
     @Override
-    public int numberOfUnread(ChattingListVO chattingListVO) throws Exception {
-        return chatDAO.numberOfUnread(chattingListVO);
+    public int numberOfUnread(ChatController.UnreadListVO unreadListVO) throws Exception {
+        return chatDAO.numberOfUnread(unreadListVO);
     }
 
     @Override

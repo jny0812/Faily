@@ -50,12 +50,17 @@ public class HomeService implements HomeServicein{
     }
 
     @Override
-    public String CheckCalendar(String calendar_date) throws Exception {
+    public Integer CheckCalendar(String calendar_date) throws Exception {
         return homeDAO.CheckCalendar(calendar_date);
     }
 
     @Override
     public float GroupBonding(int group_id) throws Exception {
         return homeDAO.GroupBonding(group_id);
+    }
+
+    @Override
+    public void putEmojibyte(HomeApiController.putEmojiVO putEmojiVO) throws Exception {
+        homeDAO.putEmojibyte(putEmojiVO);
     }
 }

@@ -1,6 +1,9 @@
 package Project.Projectspring.chatex.Chatting.Controller;
 
+import Project.Projectspring.Emoji.Service.EmojiService;
+import Project.Projectspring.Emoji.VO.CreateEmojiVO;
 import Project.Projectspring.Group.Service.GroupService;
+import Project.Projectspring.Home.Controller.HomeApiController;
 import Project.Projectspring.Join.Controller.JoinController;
 import Project.Projectspring.Photo.Service.PhotoService;
 import Project.Projectspring.Photo.VO.CreatePhotoVO;
@@ -14,6 +17,7 @@ import Project.Projectspring.chatex.Push.Service.RabbitService;
 import Project.Projectspring.chatex.Push.VO.ChatPutVO;
 import Project.Projectspring.chatex.Push.VO.ChatVO;
 import Project.Projectspring.chatex.Push.VO.ReceiverListVO;
+import com.google.firebase.ErrorCode;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -43,6 +47,7 @@ public class ChatController {
     private final PushService pushService;
     private final PhotoService photoService;
     private final GroupService groupService;
+    private final EmojiService emojiService;
 
     @PostMapping("/chat")
     public boolean chatController(final @RequestBody MessageVO messageVO) throws InterruptedException {
@@ -57,7 +62,7 @@ public class ChatController {
     @AllArgsConstructor
     public static class SendChatVO {
         private String content;
-//        private MultipartFile file;
+//        private MultipartFile file_multi;
         private byte[] file;
         private boolean emoji;
         private boolean photo;
@@ -79,6 +84,7 @@ public class ChatController {
     private final ChatSender sender;
     private final SimpMessageSendingOperations msgTemplate;
     private final RabbitService rabbitService;
+
 
     /** 채팅 전송 **/  //form-data 타입
     @RequestMapping(value = "/chat/msg", method = RequestMethod.POST)
@@ -102,12 +108,20 @@ public class ChatController {
 
             byte [] file = sendChatVO.getFile();
 
-            if(file != null){
+//            if(file != null){
 //                path = saveFile(sendChatVO.getFile());
 ////                byte[] file_byte = transferUserFile(path);
 ////                log.warn(String.valueOf(file_byte));
-                chatVO.setFile(file);
-            }
+//                chatVO.setFile(file);
+//            }
+
+//            MultipartFile file_multi = sendChatVO.getFile_multi();
+////            if(file_multi != null){
+//                path = saveFile(file_multi);
+//                byte[] file = transferUserFile(path);
+//                log.warn(String.valueOf(file));
+//                chatVO.setFile(file);
+////            }
 
 
             msgTemplate.convertAndSend("/topic/messages." +String.valueOf(group_code), new ChatRequest(sendChatVO.getContent(),file, sender_name));
@@ -147,11 +161,21 @@ public class ChatController {
 
                 pushService.putChatting(chatPutVO);  //채팅 테이블에 insert
 
+                //photo인 경우
                 if(sendChatVO.isPhoto() == true) {
                     if(receiver_id==sender_id){
                     CreatePhotoVO createPhotoVO = new CreatePhotoVO(file,sender_id, sender_name,group_code,group_id,chatting_time);
                     photoService.createPhoto(createPhotoVO);  //photo 테이블에 insert
                 }}
+
+                //이모티콘인 경우
+//                if(sendChatVO.isEmoji() == true) {
+//                    if(receiver_id==sender_id){
+//                        CreateEmojiVO createEmojiVO = new CreateEmojiVO(file,sender_id, sender_name,group_id,chatting_time);
+//                        emojiService.createEmoji(createEmojiVO);  //emoji 테이블에 insert
+//                    }}
+
+
             }
                 log.warn("insert 성공");
 
@@ -163,8 +187,6 @@ public class ChatController {
             Calendar cal = Calendar.getInstance();
             cal.setTime(time);
             String chatting_time = sdformat.format(cal.getTime());  //채팅 시간
-
-
 
         result.put("isSuccess", true);
         result.put("code",200);
@@ -178,10 +200,7 @@ public class ChatController {
         result.put("photo  ",sendChatVO.isPhoto());
         result.put("text",sendChatVO.isText());
         result.put("calendar",sendChatVO.isCalendar());
-
-
         }
-
         catch (Exception e) {
            log.warn(String.valueOf(e));
             result.put("isSuccess", false);
@@ -195,17 +214,17 @@ public class ChatController {
 
     /** 채팅 확인 (채팅 목록 불러오기) **/
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UnreadListVO {
-        private String group_code;
-        private String content;
-        private String sender_name;
-        private int user_id;
-        private String file;
-    }
+//    @Getter
+//    @Setter
+//    @NoArgsConstructor
+//    @AllArgsConstructor
+//    public static class UnreadListVO {
+//        private String group_code;
+//        private String content;
+//        private String sender_name;
+//        private int user_id;
+//        private String file;
+//    }
 
 
     @Getter
@@ -214,17 +233,44 @@ public class ChatController {
     @AllArgsConstructor
     public static class ChatChatVO {
         private int unread;
-        private int sender_id;
+        private String sender_name;
         private String content;
-        private String file;
-//        private byte[] file;
-        private String group_code;
+//        private String file;
+        private byte[] file;
+//        private String group_code;
         private String chatting_time;
 
+        private boolean emoji;
+        private boolean photo;
+        private boolean text;
+        private boolean calendar;
+
     }
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UnreadListVO {
+        private String group_code;
+        private String content;
+        private byte [] chatting_file;
+        private String sender_name;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class responseAnswer {
+        boolean IsSuccess;
+        int code;
+        String message;
+        List<ChatChatVO> result;
+
+    }
+
     @RequestMapping(value = "/chat/list", method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String, Object> ChattingList() throws Exception{
+    public Object ChattingList() throws Exception{
 
         HashMap<String, Object> result = new HashMap<>();
 
@@ -234,28 +280,39 @@ public class ChatController {
             int user_id = questionService.userIdCheck(e_mail);    //receiver_id 추출
             String group_code = chatService.getGroupCode(user_id); //group_code 추출
 
+
+           responseAnswer response = new responseAnswer(true, 200,
+                   "채팅 목록을 불러왔습니다", null);
+
             log.warn(group_code);
 
             List<ChattingListVO> chattingListVO = chatService.ChatList(group_code);  //채팅 내용 불러오기
 
             List<ChatChatVO> list = new ArrayList<>();
 
+            log.warn(String.valueOf(chattingListVO.size()));
+
             for (int i =0;i<chattingListVO.size();i++) {
 
                 chatService.updateIsRead(user_id);   //'읽음' 처리
-                int unread = chatService.numberOfUnread(chattingListVO.get(i));  //읽지 않은 인원 수
+
+                UnreadListVO unreadListVO = new UnreadListVO(group_code,chattingListVO.get(i).getContent(),
+                       chattingListVO.get(i).getChatting_file(),chattingListVO.get(i).getSender_name() );
+                log.warn("content"+chattingListVO.get(i).getContent());
+
+                int unread = chatService.numberOfUnread(unreadListVO);  //읽지 않은 인원 수
                 log.warn(String.valueOf(unread));
 
-            ChatChatVO chatChatVO = new ChatChatVO(unread,user_id,chattingListVO.get(i).getContent(),
-                    chattingListVO.get(i).getChatting_file(),group_code,chattingListVO.get(i).getChatting_time());
-                list.add(chatChatVO);
-            }
+            ChatChatVO chatChatVO = new ChatChatVO(unread,chattingListVO.get(i).getSender_name(),chattingListVO.get(i).getContent(),
+                    chattingListVO.get(i).getChatting_file(),chattingListVO.get(i).getChatting_time(),
+                    chattingListVO.get(i).isEmoji(),chattingListVO.get(i).isPhoto(),chattingListVO.get(i).isCalendar(),
+                    chattingListVO.get(i).isText());
 
-            result.put("isSuccess", true);
-            result.put("code", 200);
-            result.put("message", "채팅 목록");
-//            result.put("Unread", numberOfUnread);
-            result.put("chattingList", list);
+                list.add(chatChatVO);
+
+                response.setResult(list);
+            }
+            return response;
 
         } catch (Exception e) {
 
@@ -263,9 +320,9 @@ public class ChatController {
             result.put("isSuccess", false);
             result.put("code", 301);
             result.put("message", "유효하지 않은 사용자입니다.");
-
+            return result;
         }
-        return result;
+
 
     }
 

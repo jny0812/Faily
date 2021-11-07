@@ -5,8 +5,8 @@
 
 <mapper namespace="Project.Projectspring.Home.HomeMapper">
 
-    <select id="CheckCalendar" resultType="String">
-        select calendar_date
+    <select id="CheckCalendar" resultType="Integer">
+        select count(*)
         from calendar
         where calendar_date = #{calendar_date}
     </select>
@@ -59,6 +59,12 @@
         update user
         set user_image = #{path}
         where user_id = #{user_id}
+    </update>
+
+    <update id="putEmojibyte">
+        update emoji
+        set emoji = #{emoji}
+        where emoji_id = #{emoji_id}
     </update>
 
 </mapper>

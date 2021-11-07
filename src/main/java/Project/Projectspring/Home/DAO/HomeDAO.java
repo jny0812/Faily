@@ -59,13 +59,18 @@ public class HomeDAO implements HomeDAOin{
     }
 
     @Override
-    public String CheckCalendar(String calendar_date) throws Exception {
+    public Integer CheckCalendar(String calendar_date) throws Exception {
         return sqlSession.selectOne(NAMESPACE+".CheckCalendar", calendar_date);
     }
 
     @Override
     public float GroupBonding(int group_id) throws Exception {
         return sqlSession.selectOne(NAMESPACE+".GroupBonding",group_id);
+    }
+
+    @Override
+    public void putEmojibyte(HomeApiController.putEmojiVO putEmojiVO) throws Exception {
+        sqlSession.update(NAMESPACE+".putEmojibyte", putEmojiVO);
     }
 
 

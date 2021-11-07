@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Project.Projectspring.Emoji.EmojiMapper">
+    <insert id="createEmoji">
+    insert into emoji (
+    emoji, emoji_sender_id, emoji_sender_name, emoji_group_id, emoji_time
+    )
+    values (
+    #{chatting_file} ,#{sender_id}, #{sender_name}, #{group_id}, #{chatting_time}
+    )
+    </insert>
+
+    <select id="getEmoji" resultType="Project.Projectspring.Emoji.VO.GetEmojiVO">
+        select emoji, emoji_sender_name, emoji_time, emoji_id
+        from emoji
+        where emoji_group_id = #{group_id}
+        order by emoji_time desc
+    </select>
+
+    <insert id="makeEmoji">
+        insert into emoji (
+            emoji, emoji_group_id, emoji_time, emoji_user_id
+        )
+        values (
+                   #{emoji} ,  #{group_id}, #{emoji_time}, #{user_id}
+               )
+    </insert>
+
+    <delete id="deleteEmoji">
+        delete from emoji
+        where emoji_id = #{emoji_id}
+    </delete>
+
+    <update id="updateUserBondingByEmoji">
+        update user
+        set user_bonding = user_bonding + 0.1
+        where user_id = #{user_id}
+    </update>
+
+</mapper>

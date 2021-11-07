@@ -1,9 +1,7 @@
 package Project.Projectspring.Photo.DAO;
 
 import Project.Projectspring.Photo.Controller.PhotoController;
-import Project.Projectspring.Photo.VO.CreatePhotoCategoryVO;
-import Project.Projectspring.Photo.VO.CreatePhotoVO;
-import Project.Projectspring.Photo.VO.FindPhotosVO;
+import Project.Projectspring.Photo.VO.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -39,5 +37,35 @@ public class PhotoDAO implements PhotoDAOin{
     @Override
     public String checkPhotoCategory(PhotoController.CheckPhotoCateVO checkPhotoCateVO) throws Exception {
         return sqlSession.selectOne(NAMESPACE+".checkPhotoCategory",checkPhotoCateVO);
+    }
+
+    @Override
+    public int checkPhotoId(PhotoController.PhotoBookmarkNeedVO photoBookmarkNeedVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".checkPhotoId", photoBookmarkNeedVO);
+    }
+
+    @Override
+    public void setBookmark(PhotoBookmarkVO photoBookmarkVO) throws Exception {
+        sqlSession.insert(NAMESPACE+".setBookmark", photoBookmarkVO);
+    }
+
+    @Override
+    public Integer checkBookmarked(PhotoController.CheckBookmarkedVO checkBookmarkedVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".checkBookmarked", checkBookmarkedVO);
+    }
+
+    @Override
+    public void addPhotoInCategory(AddPhotoVO addPhotoVO) throws Exception {
+        sqlSession.update(NAMESPACE+".addPhotoInCategory", addPhotoVO);
+    }
+
+    @Override
+    public int getPhotoId(PhotoController.PhotoBookmarkNeedVO photoBookmarkNeedVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".getPhotoId",photoBookmarkNeedVO);
+    }
+
+    @Override
+    public Integer checkPhotoAdded(AddPhotoVO addPhotoVO) throws Exception {
+        return sqlSession.selectOne(NAMESPACE+".checkPhotoAdded",addPhotoVO);
     }
 }

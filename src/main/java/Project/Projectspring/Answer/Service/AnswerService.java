@@ -37,4 +37,9 @@ public class AnswerService implements AnswerServicein{
     public int checkAnswer(CheckAnswerVO checkAnswerVO) throws Exception {
         return answerDAO.checkAnswer(checkAnswerVO);
     }
+
+    @Override
+    public void updateUserBonding(int user_id) throws Exception {
+        answerDAO.updateUserBonding(user_id);
+    }
 }

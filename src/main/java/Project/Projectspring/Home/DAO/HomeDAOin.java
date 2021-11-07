@@ -21,7 +21,9 @@ public interface HomeDAOin {
 
     void putImagePath(HomeApiController.putImageVO putImageVO) throws Exception;
 
-    String CheckCalendar(String calendar_date) throws Exception;
+    Integer CheckCalendar(String calendar_date) throws Exception;
 
     float GroupBonding(int group_id) throws Exception;
+
+    void putEmojibyte(HomeApiController.putEmojiVO putEmojiVO) throws Exception;
 }

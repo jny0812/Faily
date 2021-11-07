@@ -2,9 +2,7 @@ package Project.Projectspring.Photo.Service;
 
 import Project.Projectspring.Photo.Controller.PhotoController;
 import Project.Projectspring.Photo.DAO.PhotoDAO;
-import Project.Projectspring.Photo.VO.CreatePhotoCategoryVO;
-import Project.Projectspring.Photo.VO.CreatePhotoVO;
-import Project.Projectspring.Photo.VO.FindPhotosVO;
+import Project.Projectspring.Photo.VO.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +32,35 @@ public class PhotoService implements PhotoServicein{
     @Override
     public String checkPhotoCategory(PhotoController.CheckPhotoCateVO checkPhotoCateVO) throws Exception {
         return photoDAO.checkPhotoCategory(checkPhotoCateVO);
+    }
+
+    @Override
+    public int checkPhotoId(PhotoController.PhotoBookmarkNeedVO photoBookmarkNeedVO) throws Exception {
+        return photoDAO.checkPhotoId(photoBookmarkNeedVO);
+    }
+
+    @Override
+    public void setBookmark(PhotoBookmarkVO photoBookmarkVO) throws Exception {
+        photoDAO.setBookmark(photoBookmarkVO);
+    }
+
+    @Override
+    public Integer checkBookmarked(PhotoController.CheckBookmarkedVO checkBookmarkedVO) throws Exception {
+        return photoDAO.checkBookmarked(checkBookmarkedVO);
+    }
+
+    @Override
+    public void addPhotoInCategory(AddPhotoVO addPhotoVO) throws Exception {
+        photoDAO.addPhotoInCategory(addPhotoVO);
+    }
+
+    @Override
+    public int getPhotoId(PhotoController.PhotoBookmarkNeedVO photoBookmarkNeedVO) throws Exception {
+        return photoDAO.getPhotoId(photoBookmarkNeedVO);
+    }
+
+    @Override
+    public Integer checkPhotoAdded(AddPhotoVO addPhotoVO) throws Exception {
+        return photoDAO.checkPhotoAdded(addPhotoVO);
     }
 }

@@ -15,4 +15,6 @@ public interface AnswerDAOin {
     int bringGroupQuestionId(int group_id) throws Exception;
 
     int checkAnswer(CheckAnswerVO checkAnswerVO) throws Exception;
+
+    void updateUserBonding(int user_id) throws Exception;
 }

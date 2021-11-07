@@ -36,15 +36,7 @@ public class HomeApiController {
         private int user_id;
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @ToString
-    public class putImageVO{
-        private String path;
-        private int user_id;
-    }
+
 
     @Getter
     @Setter
@@ -65,7 +57,7 @@ public class HomeApiController {
         String user_mood;
         List<FamilyListVO> familyList;
         List<TodayAnniversaryVO> today_anniversary;
-        String today;
+        String calendar_date;
         String user_name;
     }
 
@@ -76,7 +68,7 @@ public class HomeApiController {
         boolean IsSuccess;
         int code;
         String message;
-        HomeList result;
+        List<HomeList> result;
 
     }
 
@@ -111,7 +103,7 @@ public class HomeApiController {
             cal.setTime(time);
 
             String calendar_date = sdformat.format(cal.getTime());
-            String today = calendar_date;
+//            String today = calendar_date;
 
             FindNeedVO findNeedVO = new FindNeedVO(group_id, null);
 
@@ -119,10 +111,14 @@ public class HomeApiController {
             String user_mood = homeService.getUserMood(user_id);
 //            homeLists.setGroup_bonding(group_bonding);
 
-            HomeList homeLists = new HomeList(group_bonding, user_mood, null, null, today, user_name);
+            HomeList homeLists = new HomeList(group_bonding, user_mood, null, null, calendar_date, user_name);
 
                 List<FamilyListNeedVO> familyListNeedVOS = homeService.getFamilyList(group_id);
                 List<FamilyListVO> familyListVOS = new ArrayList<>();
+
+                log.warn(String.valueOf(familyListNeedVOS.size()));
+
+            List<HomeList> list = new ArrayList<>();
 
                 for (int j = 0; j < familyListNeedVOS.size(); j++) {
 
@@ -130,18 +126,22 @@ public class HomeApiController {
                             familyListNeedVOS.get(j).getUser_bonding(),
                             fileByte.transferUserFile(familyListNeedVOS.get(j).getUser_image()),
                             familyListNeedVOS.get(j).getUser_mood());
+
                     familyListVOS.add(familyListVO);
                     homeLists.setFamilyList(familyListVOS);}
 
                     if (homeService.CheckCalendar(calendar_date) == null) {  //만약 일정이 없으면
-                        response.setResult(homeLists);
+                        log.warn(String.valueOf(homeService.CheckCalendar(calendar_date)));
+                        log.warn("calendar_date complete");
+                        list.add(homeLists);
                     }
+
                     else {
                         findNeedVO.setCalendar_date(calendar_date);
 
                         List<GetByGroupIdVO> getByGroupIdVOS = homeService.getByGroupId(findNeedVO);
 
-                        List<HomeList> list = new ArrayList<>();
+
 
                         List<TodayAnniversaryVO> today_anniversary = homeService.getCalendar(findNeedVO);
                         log.warn(String.valueOf(today_anniversary.toString()));
@@ -152,9 +152,9 @@ public class HomeApiController {
 //                String today = getByGroupIdVOS.get(0).getCalendar_date();
 //                homeLists.setGroup_bonding(group_bonding);
                         homeLists.setToday_anniversary(today_anniversary);
-
-                        response.setResult(homeLists);
+                        list.add(homeLists);
                 }
+            response.setResult(list);
 
             return response;}
 
@@ -172,15 +172,61 @@ public class HomeApiController {
 
 }
 
-    @PostMapping("/test_img")
-    public void image(@ModelAttribute imageneedVO imageneedVO) throws Exception {
-        String path = fileByte.saveFile(imageneedVO.getFile());
-        log.warn(String.valueOf(path));
-        putImageVO putImageVO = new putImageVO(path, imageneedVO.getUser_id());
-        homeService.putImagePath(putImageVO);
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class testVO {
+        private MultipartFile file;
+        private int user_id;
+
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class ImgVO {
+        private MultipartFile file;
+        private int emoji_id;
+
     }
 
 
+    @PostMapping("/test_img")
+    public void image(@ModelAttribute testVO testVO) throws Exception {
+        String path = fileByte.saveFile(testVO.getFile());
+        log.warn(String.valueOf(path));
+//         byte[] file_byte = fileByte.transferUserFile(path);
+         putImageVO putImageVO = new putImageVO(path, testVO.getUser_id());
+         homeService.putImagePath(putImageVO);
+    }
+
+    @PostMapping("/emoji_img")
+    public void image(@ModelAttribute ImgVO imgVO) throws Exception {
+        String path = fileByte.saveFile(imgVO.getFile());
+        log.warn(String.valueOf(path));
+        byte[] file_byte = fileByte.transferUserFile(path);
+        putEmojiVO putEmojiVO = new putEmojiVO(file_byte,imgVO.getEmoji_id());
+        homeService.putEmojibyte(putEmojiVO);
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @ToString
+    public class putImageVO{
+        private String path;
+        private int user_id;
+    }
 
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @ToString
+    public class putEmojiVO{
+        private byte[] emoji;
+        private int emoji_id;
+    }
 }

@@ -36,4 +36,46 @@
         from photo_category
         where photo_category_name = #{photo_category} and photo_category_user_id = #{user_id}
     </select>
+
+    <select id="checkPhotoId" resultType="int">
+        select photo_id, photo_sender_name
+        from photo
+        where photo = #{photo} and photo_sender_name =#{sender_name}
+    </select>
+
+    <select id="checkBookmarked" resultType="Integer">
+        select photo_bookmark_id
+        from photo_bookmark
+        where photo_id = #{photo_id} and photo_bookmark_user_id = #{user_id}
+    </select>
+
+    <insert id="setBookmark">
+        insert into photo_bookmark (
+            photo_id, photo_bookmark_user_id, photo_bookmark_group_id
+        )
+        values (
+            #{photo_id}, #{user_id}, #{group_id}
+               )
+    </insert>
+
+    <select id="getPhotoId" resultType="int">
+        select photo_id
+        from photo
+        where photo = #{photo} and photo_sender_name = #{sender_name}
+    </select>
+    
+    <update id="addPhotoInCategory">
+        update photo as p
+        set p.photo_category_id =
+            (select pc.photo_category_id from photo_category as pc where pc.photo_category_name = #{photo_category})
+        where p.photo_id = #{photo_id}
+    </update>
+
+    <select id="checkPhotoAdded" resultType="Integer">
+        select p.photo_category_id
+        from photo as p
+            where (select pc.photo_category_id from photo_category as pc where pc.photo_category_name = #{photo_category})
+                 and p.photo_id = #{photo_id}
+    </select>
+
 </mapper>

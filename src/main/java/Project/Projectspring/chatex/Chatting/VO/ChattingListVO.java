@@ -8,10 +8,14 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChattingListVO {
 
-    private int sender_id;
+    private String sender_name;
     private String content;
-    private String chatting_file;
+    private byte[] chatting_file;
     private String group_code;
     private String chatting_time;
+    private boolean emoji;
+    private boolean photo;
+    private boolean calendar;
+    private boolean text;
 
 }

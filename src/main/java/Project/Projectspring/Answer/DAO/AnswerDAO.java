@@ -42,4 +42,9 @@ public class AnswerDAO implements AnswerDAOin{
     public int checkAnswer(CheckAnswerVO checkAnswerVO) throws Exception {
         return sqlSession.selectOne(NAMESPACE+".checkAnswer",checkAnswerVO);
     }
+
+    @Override
+    public void updateUserBonding(int user_id) throws Exception {
+        sqlSession.update(NAMESPACE+".updateUserBonding", user_id);
+    }
 }

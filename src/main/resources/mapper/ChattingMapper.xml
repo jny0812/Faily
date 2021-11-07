@@ -13,7 +13,8 @@
     </select>
 
     <select id="ChatList" resultType="Project.Projectspring.chatex.Chatting.VO.ChattingListVO">
-        select group_code, content, chatting_file, sender_id, chatting_time
+        select group_code, content, chatting_file, sender_name, chatting_time,
+               is_emoji, is_calendar, is_photo, is_text
         from chatting
         where group_code = #{group_code} and receiver_id = sender_id
         order by chatting_time asc;
@@ -29,7 +30,7 @@
         select count(*)
         from chatting
         where is_read = 0 and group_code = #{group_code} and content= #{content}
-                and chatting_file = #{chatting_file} and sender_id = #{sender_id}
+                and chatting_file = #{chatting_file} and sender_name = #{sender_name}
     </select>
 
     <select id="getUserName" resultType="String">

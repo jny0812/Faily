@@ -81,6 +81,10 @@ public class AnswerController {
 
             answerService.statusChangeToOne(user_id);   //답변 완료 상태로 변경
 
+            answerService.updateUserBonding(user_id);    //user_bonding + 0.38
+
+
+
             result.put("isSuccess",true);
             result.put("code",200);
             result.put("message","답변을 완료하였습니다");

@@ -53,7 +53,7 @@ public class MailSendController {
             numStr += ran;
         }
         String setfrom = "wkdskdus@gamil.com";
-        String title = "테스트 인증번호."; // 제목
+        String title = "페일리 인증코드입니다. :) "; // 제목
         String content =
 
                 System.getProperty("line.separator") + //한줄씩 줄간격을 두기위해 작성
@@ -63,7 +63,7 @@ public class MailSendController {
 
                         System.getProperty("line.separator") +
 
-                        " 인증번호는 " + numStr + " 입니다. ";
+                        " 페일리 이메일 인증번호는  " + numStr + " 입니다. ";
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
